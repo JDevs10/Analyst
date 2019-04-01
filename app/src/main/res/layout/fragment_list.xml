@@ -42,12 +42,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorBlack"
+            android:hint="@string/search_thee_dots"
             android:inputType="text|textFilter"
             android:paddingLeft="20dp"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
-            android:text="@string/search_thee_dots"
             android:textColor="@color/colorWhite"
+            android:textColorHint="@color/colorWhite"
             android:textSize="16sp"
             tools:ignore="LabelFor"
             tools:layout_editor_absoluteX="0dp" />
@@ -63,18 +64,5 @@
             tools:listitem="@layout/recycler_view_item" />
 
     </LinearLayout>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="336dp"
-        android:layout_marginLeft="336dp"
-        android:layout_marginBottom="80dp"
-        android:clickable="true"
-        app:elevation="100dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@android:drawable/ic_input_add" />
 
 </android.support.constraint.ConstraintLayout>
