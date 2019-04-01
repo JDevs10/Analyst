@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/default_android"
+    android:orientation="horizontal"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:id="@+id/custom_part_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/custom_ticket_title"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:text="Ticket Title"
+            android:textColor="@color/colorBlack"
+            android:textSize="24dp" />
+
+        <TextView
+            android:id="@+id/custom_ticket_category"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:text="Ticket Category"
+            android:textColor="@color/colorBlack"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/custom_ticket_date"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:text="Ticket Date/Time"
+            android:textColor="@color/colorBlack"
+            android:textSize="16dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/custom_part_2"
+        android:layout_width="190dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="0dp">
+
+        <TextView
+            android:id="@+id/custom_ticket_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+ "
+            android:textColor="@color/colorBlack"
+            android:textSize="25dp" />
+
+        <TextView
+            android:id="@+id/custom_ticket_currency_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="€"
+            android:textColor="@color/colorBlack"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/custom_ticket_currency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="15090.99 "
+            android:textColor="@color/colorBlack"
+            android:textSize="20dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

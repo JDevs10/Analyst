@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/holo_blue_light"
+    tools:context=".AddTicketActivity">
+
+
+    <TextView
+        android:id="@+id/textView_add_ticket_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="146dp"
+        android:layout_marginLeft="146dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="146dp"
+        android:layout_marginRight="146dp"
+        android:text="@string/new_ticket"
+        android:textColor="@color/colorBlack"
+        android:textSize="30sp"
+        app:fontFamily="cursive"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editText_add_ticket_name"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="90dp"
+        android:layout_marginLeft="90dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="91dp"
+        android:layout_marginRight="91dp"
+        android:ems="10"
+        android:hint="@string/title"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_add_ticket_title" />
+
+    <EditText
+        android:id="@+id/editText_add_ticket_currency"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="90dp"
+        android:layout_marginLeft="90dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="91dp"
+        android:layout_marginRight="91dp"
+        android:ems="10"
+        android:hint="@string/currency_example"
+        android:inputType="numberDecimal"
+        android:textColor="@color/colorBlack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_add_ticket_ticketType" />
+
+    <Spinner
+        android:id="@+id/spinner_add_ticket_category"
+        android:layout_width="230dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="90dp"
+        android:layout_marginLeft="90dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="91dp"
+        android:layout_marginRight="91dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_add_ticket_name" />
+
+    <Spinner
+        android:id="@+id/spinner_add_ticket_ticketType"
+        android:layout_width="230dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="90dp"
+        android:layout_marginLeft="90dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="91dp"
+        android:layout_marginRight="91dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_add_ticket_category" />
+
+    <Button
+        android:id="@+id/button_add_ticket_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="70dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="60dp"
+        android:text="@string/cancel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_add_ticket_currency" />
+
+    <Button
+        android:id="@+id/button_add_ticket_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="59dp"
+        android:layout_marginEnd="70dp"
+        android:layout_marginRight="70dp"
+        android:text="@string/save"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_add_ticket_currency" />
+
+</android.support.constraint.ConstraintLayout>
