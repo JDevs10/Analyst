@@ -80,19 +80,7 @@ public class ListFragment extends Fragment {
         ticketArrayList = new ArrayList<>();
         db = new DatabaseHelper(getContext());
 
-
-        ticketArrayList.add(new Ticket(1,"Food Delux","Food","-",26.50,"€",timeStamp));
-        ticketArrayList.add(new Ticket(1,"Food Max","Food","-",6.50,"€",timeStamp));
-        ticketArrayList.add(new Ticket(1,"Food Me","House","-",46.10,"€",timeStamp));
-        ticketArrayList.add(new Ticket(1,"Food Hello","Food","-",999.50,"€","2019-10-26 06:05:00"));
-        ticketArrayList.add(new Ticket(1,"Food Delux","House","-",2699.50,"€",timeStamp));
-        ticketArrayList.add(new Ticket(1,"Food Max","Food","-",99995.50,"€",timeStamp));
-        ticketArrayList.add(new Ticket(1,"Food Me","Food","-",46.10,"€",timeStamp));
-        ticketArrayList.add(new Ticket(1,"Food Hello","Electronics","-",2.50,"€","2019-08-10 06:05:00"));
-        ticketArrayList.add(new Ticket(1,"Food Delux","Food","-",26.50,"€",timeStamp));
-        ticketArrayList.add(new Ticket(1,"Food Max","Food","-",6.50,"€",timeStamp));
-        ticketArrayList.add(new Ticket(1,"Food Me","Electronics","-",46.10,"€",timeStamp));
-        ticketArrayList.add(new Ticket(1,"Food Hello","Bank","-",2.50,"€",timeStamp));
+        getTickets();
 
     }
 
@@ -227,12 +215,36 @@ public class ListFragment extends Fragment {
         categoriesList.add("House");
     }
 
+    private void getTickets(){
+        Cursor res = db.getAllTicketData();
+
+        ticketArrayList.clear();
+        if (res.getCount() == 0){
+            Toast.makeText(getContext(), "ERROR : No Ticket(s) Found", Toast.LENGTH_SHORT).show();
+            ticketArrayList.add(new Ticket(1,"Welcome","You have no ticket(s), press the add button to get started !!!","-",10.26,"€",timeStamp));
+            return;
+        }
+
+        while (res.moveToNext()){
+            Ticket ticket = new Ticket();
+            ticket.setId(res.getInt(0));
+            ticket.setName(res.getString(1));
+            ticket.setCategory(res.getString(2));
+            ticket.setTicketType(res.getString(3));
+            ticket.setCurrency(res.getDouble(4));
+            ticket.setCurrencyType(res.getString(5));
+            ticket.setDate(res.getString(6));
+            ticketArrayList.add(ticket);
+        }
+    }
+
     //Add new Tickets
     private void openAddTicket(){
         Intent intent = new Intent(ListFragment.this.getContext(), AddTicketActivity.class);
         startActivity(intent);
     }
 
+    //Ticket Update popup
     private void InitUpdateDialog(final Ticket ticket, final int position, View view) {
 
         final EditText et_update_name = (EditText) view.findViewById(R.id.fragment_list_dialog_update_et_update_name);
