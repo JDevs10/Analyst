@@ -52,13 +52,12 @@
                 tools:layout_editor_absoluteX="134dp"
                 tools:layout_editor_absoluteY="263dp" />
 
-            <TextView
-                android:id="@+id/textView_fragment_settings_startAmouce_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:drawableLeft="@android:drawable/ic_menu_edit"
-                android:textSize="18sp" />
+            <Button
+                android:id="@+id/textView_fragment_settings_startAmouce_btn"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@android:drawable/ic_menu_edit"
+                android:layout_marginLeft="10dp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -78,13 +77,12 @@
                 tools:layout_editor_absoluteX="134dp"
                 tools:layout_editor_absoluteY="263dp" />
 
-            <TextView
-                android:id="@+id/textView_fragment_settings_ccurrencyType_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:drawableLeft="@android:drawable/ic_menu_edit"
-                android:textSize="18sp" />
+            <Button
+                android:id="@+id/textView_fragment_settings_ccurrencyType_btn"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@android:drawable/ic_menu_edit"
+                android:layout_marginLeft="10dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -101,15 +99,15 @@
                 android:textColor="@color/colorBlack"
                 android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/textView_fragment_settings_category_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:drawableLeft="@android:drawable/ic_menu_edit"
-                android:textSize="18sp" />
+            <Button
+                android:id="@+id/textView_fragment_settings_category_btn"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@android:drawable/ic_menu_edit"
+                android:layout_marginLeft="10dp" />
         </LinearLayout>
 
     </LinearLayout>
+
 
 </android.support.constraint.ConstraintLayout>

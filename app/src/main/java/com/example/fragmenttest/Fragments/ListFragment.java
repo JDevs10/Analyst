@@ -295,7 +295,7 @@ public class ListFragment extends Fragment {
 
                 listFragmentAdapter.UpdateData(position,ticket1);
                 Toast.makeText(getContext(),"User Updated..",Toast.LENGTH_SHORT).show();
-
+                dialog.dismiss();
             }
         });
         btn_cancel.setOnClickListener(new View.OnClickListener() {
