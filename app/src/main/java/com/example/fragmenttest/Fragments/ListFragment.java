@@ -22,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.fragmenttest.Adapters.ListFragmentAdapter;
@@ -29,6 +30,7 @@ import com.example.fragmenttest.AddTicketActivity;
 import com.example.fragmenttest.Database.DatabaseHelper;
 import com.example.fragmenttest.Interface.ItemClickListenerTicket;
 import com.example.fragmenttest.R;
+import com.example.fragmenttest.objects.Categories;
 import com.example.fragmenttest.objects.Ticket;
 
 import java.text.SimpleDateFormat;
@@ -144,13 +146,25 @@ public class ListFragment extends Fragment {
                 //Update Ticket
                 listFragmentAdapter.setOnItemClickListener(new ItemClickListenerTicket() {
                     @Override
-                    public void OnItemClickTicket(int position, Ticket ticket) {
+                    public void OnItemClickTicketUpdate(int position, Ticket ticket) {
 
                         builder = new AlertDialog.Builder(getContext());
                         builder.setTitle("Update User Info");
                         builder.setCancelable(false);
                         View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_list_dialog_update,null,false);
                         InitUpdateDialog(ticket,position,view);
+                        builder.setView(view);
+                        dialog = builder.create();
+                        dialog.show();
+                    }
+
+                    @Override
+                    public void OnItemClickTicketDelete(int position, Ticket ticketData) {
+                        builder = new AlertDialog.Builder(getContext());
+                        builder.setTitle("Delete Ticket Info");
+                        builder.setCancelable(false);
+                        View view = LayoutInflater.from(getContext()).inflate(R.layout.custom_notification,null,false);
+                        InitDeleteDialog(ticketData, position, view);
                         builder.setView(view);
                         dialog = builder.create();
                         dialog.show();
@@ -188,13 +202,25 @@ public class ListFragment extends Fragment {
                 //Update Ticket
                 listFragmentAdapter.setOnItemClickListener(new ItemClickListenerTicket() {
                     @Override
-                    public void OnItemClickTicket(int position, Ticket ticket) {
+                    public void OnItemClickTicketUpdate(int position, Ticket ticket) {
 
                         builder = new AlertDialog.Builder(getContext());
                         builder.setTitle("Update Ticket Info");
                         builder.setCancelable(false);
                         View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_list_dialog_update,null,false);
                         InitUpdateDialog(ticket, position, view);
+                        builder.setView(view);
+                        dialog = builder.create();
+                        dialog.show();
+                    }
+
+                    @Override
+                    public void OnItemClickTicketDelete(int position, Ticket ticketData) {
+                        builder = new AlertDialog.Builder(getContext());
+                        builder.setTitle("Delete Ticket Info");
+                        builder.setCancelable(false);
+                        View view = LayoutInflater.from(getContext()).inflate(R.layout.custom_notification,null,false);
+                        InitDeleteDialog(ticketData, position, view);
                         builder.setView(view);
                         dialog = builder.create();
                         dialog.show();
@@ -339,6 +365,34 @@ public class ListFragment extends Fragment {
                 dialog.dismiss();
             }
         });
+    }
+
+    //Delete Ticket
+    private void InitDeleteDialog(final Ticket ticketData, final int position, View view){
+        final TextView text_tv = (TextView) view.findViewById(R.id.custom_notification_tv_text);
+        Button btn_yes = (Button) view.findViewById(R.id.custom_notification_btn_positive);
+        Button btn_no = (Button) view.findViewById(R.id.custom_notification_btn_negative);
+
+        text_tv.setText("You're about to delete '"+ticketData.getName()+"' ticket, are you sure ?");
+        btn_yes.setText("Yes");
+        btn_yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                listFragmentAdapter.DeleteData(position, ticketData);
+                Toast.makeText(mContext, "Category Deleted!", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+        });
+
+        btn_no.setText("No");
+        btn_no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
     }
 
     private ArrayList<Ticket> filter(ArrayList<Ticket> list, String category, String text){

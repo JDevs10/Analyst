@@ -1,6 +1,7 @@
 package com.example.fragmenttest.Adapters;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.fragmenttest.Database.DatabaseHelper;
 import com.example.fragmenttest.Interface.ItemClickListenerTicket;
 import com.example.fragmenttest.R;
 import com.example.fragmenttest.objects.Ticket;
@@ -33,8 +35,9 @@ public class ListFragmentAdapter extends RecyclerView.Adapter<ListFragmentAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, final int i) {
+    public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
 
+        final int position = myViewHolder.getAdapterPosition();
         final Ticket ticketData = ticketList.get(i);
 
         myViewHolder.tv_name.setText(ticketList.get(i).getName());
@@ -47,15 +50,14 @@ public class ListFragmentAdapter extends RecyclerView.Adapter<ListFragmentAdapte
         myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                itemClickListenerTicket.OnItemClickTicket(i, ticketData);
+                itemClickListenerTicket.OnItemClickTicketUpdate(position, ticketData);
             }
         });
 
         myViewHolder.tv_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ticketList.remove(i);
-                notifyDataSetChanged();
+                itemClickListenerTicket.OnItemClickTicketDelete(position, ticketData);
             }
         });
     }
@@ -87,9 +89,22 @@ public class ListFragmentAdapter extends RecyclerView.Adapter<ListFragmentAdapte
     }
 
     public void UpdateData(int position, Ticket ticketData){
+        DatabaseHelper db = new DatabaseHelper(context);
+        db.updateTicketData(ticketData);
 
+        // set changes to the list
         ticketList.remove(position);
         ticketList.add(ticketData);
+        notifyItemChanged(position);
+        notifyDataSetChanged();
+    }
+
+    public void DeleteData(int position, Ticket ticketData){
+        DatabaseHelper db = new DatabaseHelper(context);
+        db.deleteTicketData(ticketData.getId());
+
+        // set changes to the list
+        ticketList.remove(position);
         notifyItemChanged(position);
         notifyDataSetChanged();
     }

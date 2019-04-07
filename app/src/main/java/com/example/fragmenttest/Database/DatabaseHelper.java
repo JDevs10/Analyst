@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.example.fragmenttest.objects.Ticket;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static String TAG = "DataBaseHelper";
@@ -108,21 +110,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //Update
-    public boolean updateTicketData(int id, String name, String category, String ticketType, double currency, String currencyType, String date) {
+    public boolean updateTicketData(Ticket newTicketData) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        if (!name.isEmpty() && !category.isEmpty() && !ticketType.isEmpty() && currency != 0 && !currencyType.isEmpty() && !date.isEmpty()){
+        if (!newTicketData.getName().isEmpty() && !newTicketData.getCategory().isEmpty() && !newTicketData.getTicketType().isEmpty()
+                && newTicketData.getCurrency() != 0.0 && !newTicketData.getCurrencyType().isEmpty() && !newTicketData.getDate().isEmpty()){
             db.execSQL("update "+TABLE_NAME_TICKETS+
-                    " set "+TABLE_NAME_TICKETS_COL_2+" = "+name+", "+
-                    TABLE_NAME_TICKETS_COL_3+" = "+category+", "+
-                    TABLE_NAME_TICKETS_COL_4+" = "+ticketType+", "+
-                    TABLE_NAME_TICKETS_COL_5+" = "+currency+", "+
-                    TABLE_NAME_TICKETS_COL_6+" = "+currencyType+", "+
-                    TABLE_NAME_TICKETS_COL_7+" = "+date+" where "+TABLE_NAME_TICKETS_COL_1+" = "+id);
-            Log.e("DB: ", "ID: "+id+" is updated");
+                    " set "+TABLE_NAME_TICKETS_COL_2+" = '"+newTicketData.getName()+"', "+
+                    TABLE_NAME_TICKETS_COL_3+" = '"+newTicketData.getCategory()+"', "+
+                    TABLE_NAME_TICKETS_COL_4+" = '"+newTicketData.getTicketType()+"', "+
+                    TABLE_NAME_TICKETS_COL_5+" = '"+newTicketData.getCurrency()+"', "+
+                    TABLE_NAME_TICKETS_COL_6+" = '"+newTicketData.getCurrencyType()+"', "+
+                    TABLE_NAME_TICKETS_COL_7+" = '"+newTicketData.getDate()+"' where "+TABLE_NAME_TICKETS_COL_1+" = "+newTicketData.getId());
+            Log.e("DB: ", "ID: "+newTicketData.getId()+" is updated");
             return true;
         }else {
-            Log.e("DB: ", "ID: "+id+" failed to update");
+            Log.e("DB: ", "ID: "+newTicketData.getId()+" failed to update");
             return false;
         }
     }
