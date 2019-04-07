@@ -27,9 +27,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_NAME_SETTINGS_COL_2 ="start_amount";
     private static final String TABLE_NAME_SETTINGS_COL_3 ="currency_type";
     private static final String TABLE_NAME_SETTINGS_COL_4 ="save_storage_status";
+    private static final String TABLE_NAME_SETTINGS_COL_5 ="default_";
 
     private static final String TABLE_NAME_CATEGORIES_COL_1 ="ID";
     private static final String TABLE_NAME_CATEGORIES_COL_2 ="name";
+    private static final String TABLE_NAME_CATEGORIES_COL_3 ="default_";
 
 
     //Create Query table strings
@@ -46,11 +48,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             TABLE_NAME_SETTINGS_COL_1+" INTEGER PRIMARY KEY AUTOINCREMENT, "+
             TABLE_NAME_SETTINGS_COL_2+" DOUBLE, "+
             TABLE_NAME_SETTINGS_COL_3+" TEXT, "+
-            TABLE_NAME_SETTINGS_COL_4+" INTEGER)";
+            TABLE_NAME_SETTINGS_COL_4+" INTEGER," +
+            TABLE_NAME_SETTINGS_COL_5+" INTEGER)";
 
     private final String createCategoriesTable = "create table "+TABLE_NAME_CATEGORIES+" ("+
             TABLE_NAME_CATEGORIES_COL_1+" INTEGER PRIMARY KEY AUTOINCREMENT, "+
-            TABLE_NAME_CATEGORIES_COL_2+" TEXT)";
+            TABLE_NAME_CATEGORIES_COL_2+" TEXT, " +
+            TABLE_NAME_CATEGORIES_COL_3+" INTEGER)";
 
 
     public DatabaseHelper(Context context) {
@@ -64,6 +68,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(createSettingsTable);
         db.execSQL(createCategoriesTable);
         Log.e("DB: ", "Tables created");
+
+        db.execSQL("insert into "+TABLE_NAME_SETTINGS+" values(1, 0.0, '€', 0, 1)");
+        db.execSQL("insert into "+TABLE_NAME_CATEGORIES+" values(1, 'Other', 1)");
+//        Log.e("DB: ", "Default Settings created");
     }
 
     @Override
@@ -114,7 +122,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             Log.e("DB: ", "ID: "+id+" is updated");
             return true;
         }else {
-            Log.e("DB: ", "ID: "+id+" failed to updated");
+            Log.e("DB: ", "ID: "+id+" failed to update");
+            return false;
+        }
+    }
+
+    //Update ticket category
+    public boolean updateTicketCategoryData(int id, String newCategory){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        if (!newCategory.isEmpty()){
+            db.execSQL("update "+TABLE_NAME_TICKETS+" set "+TABLE_NAME_TICKETS_COL_3+" = '"+newCategory+"' where "+TABLE_NAME_TICKETS_COL_1+" = "+id);
+            Log.e("DB: ", "Ticket ID: "+id+", set new category : "+newCategory+" is updated");
+            return true;
+        }else {
+            Log.e("DB: ", "Ticket ID: "+id+", set new category : "+newCategory+" failed to update");
             return false;
         }
     }
@@ -130,12 +152,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //Add Default
     public void insertDefaultSettingsData(){
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("insert into "+TABLE_NAME_SETTINGS+" values(1, 0.0, '€', 0)");
-        Log.e("DB: ", TABLE_NAME_SETTINGS+" => ID: 1 insert is done");
+        db.execSQL("insert into "+TABLE_NAME_SETTINGS+" values(1, 0.0, '€', 0, 1)");
+        Log.e("DB: ", TABLE_NAME_SETTINGS+" => ID: 1 Default Settings Data insert is done");
     }
 
     //View Settings
-    Cursor getAllSettingsData(){
+    public Cursor getAllSettingsData(){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery("select * from "+TABLE_NAME_SETTINGS, null);
         return res;
@@ -153,7 +175,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean updateCurrencyType(String type){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("update "+TABLE_NAME_SETTINGS+
-                " set "+TABLE_NAME_SETTINGS_COL_3+" = "+type+" where "+TABLE_NAME_SETTINGS_COL_1+" = 1");
+                " set "+TABLE_NAME_SETTINGS_COL_3+" = '"+type+"' where "+TABLE_NAME_SETTINGS_COL_1+" = 1");
         Log.e("DB: ", TABLE_NAME_SETTINGS_COL_3+" => ID: 1 is updated");
         return true;
     }
@@ -169,17 +191,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     // CRUD Base Categories Table
+    public boolean insertDefaultCategory(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("insert into "+TABLE_NAME_CATEGORIES+" values(1, 'Other', 1)");
+        Log.e("DB: ", TABLE_NAME_CATEGORIES+" => insert is done");
+        return true;
+    }
+
     //Add
     public boolean insertCategories(String name){
         SQLiteDatabase db = this.getWritableDatabase();
         if (!name.isEmpty()){
-            db.execSQL("insert into "+TABLE_NAME_TICKETS+" values(null, '"+name+"')");
+            db.execSQL("insert into "+TABLE_NAME_CATEGORIES+" values(null, '"+name+"', 0)");
             Log.e("DB: ", TABLE_NAME_CATEGORIES+" => insert is done");
             return true;
         }else {
             Log.e("DB: ", "insert failed");
             return false;
         }
+    }
+
+    public Cursor getDefaultCategoryData(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery("select * from "+TABLE_NAME_CATEGORIES+" where id = 1",null);
+        return res;
     }
 
     //View

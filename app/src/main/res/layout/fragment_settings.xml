@@ -29,9 +29,10 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="80dp"
         android:gravity="center"
         android:orientation="vertical"
+        android:paddingBottom="5dp"
         app:layout_constraintTop_toBottomOf="@+id/textView4"
         tools:layout_editor_absoluteX="16dp">
 
@@ -56,8 +57,8 @@
                 android:id="@+id/textView_fragment_settings_startAmouce_btn"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:background="@android:drawable/ic_menu_edit"
-                android:layout_marginLeft="10dp"/>
+                android:layout_marginLeft="10dp"
+                android:background="@android:drawable/ic_menu_edit" />
         </LinearLayout>
 
         <LinearLayout
@@ -81,30 +82,48 @@
                 android:id="@+id/textView_fragment_settings_ccurrencyType_btn"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:background="@android:drawable/ic_menu_edit"
-                android:layout_marginLeft="10dp" />
+                android:layout_marginLeft="10dp"
+                android:background="@android:drawable/ic_menu_edit" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="200dp"
             android:gravity="center"
-            android:orientation="horizontal"
-            android:padding="15dp">
+            android:orientation="vertical"
+            android:background="@drawable/border"
+            android:padding="5dp">
 
-            <Spinner
-                android:id="@+id/spinner_fragment_settings_category"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorBlack"
-                android:textSize="18sp" />
+                android:gravity="center"
+                android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/textView_fragment_settings_category_btn"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="@android:drawable/ic_menu_edit"
-                android:layout_marginLeft="10dp" />
+                <TextView
+                    android:id="@+id/textView_fragment_settings_category"
+                    android:layout_width="140dp"
+                    android:layout_height="wrap_content"
+                    android:text="Category area :"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/button_fragment_settings_category_add"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@android:drawable/ic_menu_add" />
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/RecyclerView_fragment_settings_category_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp">
+
+            </android.support.v7.widget.RecyclerView>
+
         </LinearLayout>
 
     </LinearLayout>

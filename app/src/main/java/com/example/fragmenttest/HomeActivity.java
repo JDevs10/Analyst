@@ -1,5 +1,6 @@
 package com.example.fragmenttest;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -10,6 +11,7 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.example.fragmenttest.Database.DatabaseHelper;
 import com.example.fragmenttest.Fragments.DiagramCircleFragment;
 import com.example.fragmenttest.Fragments.GraphFragment;
 import com.example.fragmenttest.Fragments.ListFragment;
@@ -17,7 +19,8 @@ import com.example.fragmenttest.Fragments.SettingsFragment;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private TextView mTextMessage;
+    private String TAG = HomeActivity.class.getSimpleName();
+    private DatabaseHelper db;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -55,12 +58,13 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         Log.e(HomeActivity.class.getSimpleName()+": ", "Started");
+        db = new DatabaseHelper(this);
 
-        mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ListFragment()).commit();
     }
+
 
 }

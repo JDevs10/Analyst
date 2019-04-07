@@ -3,13 +3,12 @@ package com.example.fragmenttest.Adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.fragmenttest.Interface.ItemClickListener;
+import com.example.fragmenttest.Interface.ItemClickListenerTicket;
 import com.example.fragmenttest.R;
 import com.example.fragmenttest.objects.Ticket;
 
@@ -19,7 +18,7 @@ public class ListFragmentAdapter extends RecyclerView.Adapter<ListFragmentAdapte
 
     private Context context;
     private ArrayList<Ticket> ticketList;
-    private ItemClickListener itemClickListener;
+    private ItemClickListenerTicket itemClickListenerTicket;
 
     public ListFragmentAdapter(Context mContext, ArrayList<Ticket> data){
         this.context = mContext;
@@ -48,7 +47,7 @@ public class ListFragmentAdapter extends RecyclerView.Adapter<ListFragmentAdapte
         myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                itemClickListener.OnItemClick(i, ticketData);
+                itemClickListenerTicket.OnItemClickTicket(i, ticketData);
             }
         });
 
@@ -83,8 +82,8 @@ public class ListFragmentAdapter extends RecyclerView.Adapter<ListFragmentAdapte
         }
     }
 
-    public void setOnItemClickListener(ItemClickListener itemClickListener){
-        this.itemClickListener = itemClickListener;
+    public void setOnItemClickListener(ItemClickListenerTicket itemClickListenerTicket){
+        this.itemClickListenerTicket = itemClickListenerTicket;
     }
 
     public void UpdateData(int position, Ticket ticketData){

@@ -27,7 +27,7 @@ import android.widget.Toast;
 import com.example.fragmenttest.Adapters.ListFragmentAdapter;
 import com.example.fragmenttest.AddTicketActivity;
 import com.example.fragmenttest.Database.DatabaseHelper;
-import com.example.fragmenttest.Interface.ItemClickListener;
+import com.example.fragmenttest.Interface.ItemClickListenerTicket;
 import com.example.fragmenttest.R;
 import com.example.fragmenttest.objects.Ticket;
 
@@ -40,6 +40,7 @@ public class ListFragment extends Fragment {
 
     private View v;
     private Context mContext;
+    private String TAG = ListFragment.class.getSimpleName();
     private RecyclerView recyclerView;
     private ListFragmentAdapter listFragmentAdapter;
     private ArrayList<Ticket> ticketArrayList;
@@ -79,6 +80,7 @@ public class ListFragment extends Fragment {
 
         ticketArrayList = new ArrayList<>();
         db = new DatabaseHelper(getContext());
+
 
         getTickets();
 
@@ -140,9 +142,9 @@ public class ListFragment extends Fragment {
                 listFragmentAdapter.notifyDataSetChanged();
 
                 //Update Ticket
-                listFragmentAdapter.setOnItemClickListener(new ItemClickListener() {
+                listFragmentAdapter.setOnItemClickListener(new ItemClickListenerTicket() {
                     @Override
-                    public void OnItemClick(int position, Ticket ticket) {
+                    public void OnItemClickTicket(int position, Ticket ticket) {
 
                         builder = new AlertDialog.Builder(getContext());
                         builder.setTitle("Update User Info");
@@ -184,9 +186,9 @@ public class ListFragment extends Fragment {
                 listFragmentAdapter.notifyDataSetChanged();
 
                 //Update Ticket
-                listFragmentAdapter.setOnItemClickListener(new ItemClickListener() {
+                listFragmentAdapter.setOnItemClickListener(new ItemClickListenerTicket() {
                     @Override
-                    public void OnItemClick(int position, Ticket ticket) {
+                    public void OnItemClickTicket(int position, Ticket ticket) {
 
                         builder = new AlertDialog.Builder(getContext());
                         builder.setTitle("Update Ticket Info");
@@ -203,6 +205,41 @@ public class ListFragment extends Fragment {
 
     }
 
+    private void settings(){
+        Cursor res;
+
+        Log.e(TAG, "Settings...");
+        //check if the default is set
+        res = db.getAllSettingsData();
+        while (res.moveToNext()){
+            if (res.getCount() == 0){
+                db.insertDefaultSettingsData();
+                Log.e(TAG, "Default Settings settings applied");
+            }else {
+                Log.e(TAG, "Default Settings settings already applied");
+            }
+        }
+
+
+
+        res = db.getAllCategoriesData();
+        while (res.moveToNext()){
+            //if (res.getCount() == 0){
+
+                Log.e(TAG, "Default Category settings status: id = "+res.getInt(0));
+                Log.e(TAG, "Default Category settings status: name = "+res.getInt(1));
+                Log.e(TAG, "Default Category settings status: default = "+res.getInt(2));
+
+                db.insertDefaultCategory();
+                Log.e(TAG, "Default Category settings applied");
+            //}else {
+                Log.e(TAG, "Default Category settings already applied");
+            //}
+        }
+
+        Log.e(TAG, "Settings... finished");
+    }
+
     private void getCategories(){
         Cursor res = db.getAllCategoriesData();
 
@@ -211,8 +248,6 @@ public class ListFragment extends Fragment {
         while (res.moveToNext()){
             categoriesList.add(res.getString(1));
         }
-        categoriesList.add("Food");
-        categoriesList.add("House");
     }
 
     private void getTickets(){
