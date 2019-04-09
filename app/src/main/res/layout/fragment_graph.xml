@@ -7,11 +7,9 @@
     android:layout_height="match_parent"
     android:background="@color/design_default_color_primary">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Graph Fragment"
-        android:layout_centerHorizontal="true"
-        android:textSize="30sp" />
+    <com.jjoe64.graphview.GraphView
+        android:layout_width="match_parent"
+        android:layout_height="400dip"
+        android:id="@+id/graph" />
 
 </RelativeLayout>
