@@ -7,9 +7,9 @@
     android:layout_height="match_parent"
     android:background="@color/design_default_color_primary">
 
-    <com.jjoe64.graphview.GraphView
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/lineChart"
         android:layout_width="match_parent"
-        android:layout_height="400dip"
-        android:id="@+id/graph" />
+        android:layout_height="match_parent"></com.github.mikephil.charting.charts.LineChart>
 
 </RelativeLayout>
