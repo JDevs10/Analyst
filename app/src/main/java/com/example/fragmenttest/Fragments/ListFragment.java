@@ -50,6 +50,7 @@ public class ListFragment extends Fragment {
     private ProgressDialog progressDialog;
 
     private String timeStamp;
+    private long dateInLong;
 
     private ArrayList<String> categoriesList;
     ArrayAdapter<String> adapter1;
@@ -79,6 +80,7 @@ public class ListFragment extends Fragment {
 
         //get current date and time and store it in string timeStemp................................
         timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
+        dateInLong = Calendar.getInstance().getTime().getTime();
 
         ticketArrayList = new ArrayList<>();
         db = new DatabaseHelper(getContext());
@@ -282,7 +284,7 @@ public class ListFragment extends Fragment {
         ticketArrayList.clear();
         if (res.getCount() == 0){
             Toast.makeText(getContext(), "ERROR : No Ticket(s) Found", Toast.LENGTH_SHORT).show();
-            ticketArrayList.add(new Ticket(1,"Welcome","You have no ticket(s), press the add button to get started !!!","-",10.26,"€",timeStamp));
+            ticketArrayList.add(new Ticket(1,"Welcome","You have no ticket(s), press the add button to get started !!!","-",10.26,"€",timeStamp,dateInLong));
             return;
         }
 

@@ -20,6 +20,7 @@ import com.example.fragmenttest.Database.DatabaseHelper;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 public class AddTicketActivity extends AppCompatActivity {
 
@@ -87,7 +88,7 @@ public class AddTicketActivity extends AppCompatActivity {
         String categorySelected = sp_category.getSelectedItem().toString();
         String ticketTypeSelected = sp_ticketType.getSelectedItem().toString();
         String currencyType = "€";
-        String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
+
         boolean allChecked = true;
 
         if (currency.isEmpty()){
@@ -113,7 +114,11 @@ public class AddTicketActivity extends AppCompatActivity {
             }else{
                 ticketTypeSelected = "-";
             }
-            db.insertTicket(name,categorySelected,ticketTypeSelected, Double.parseDouble(currency),currencyType,timeStamp);
+
+            String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
+            long currentDateTime = Calendar.getInstance().getTime().getTime();
+
+            db.insertTicket(name,categorySelected,ticketTypeSelected, Double.parseDouble(currency),currencyType,timeStamp, currentDateTime);
 
             Intent intent = new Intent(AddTicketActivity.this, HomeActivity.class);
             startActivity(intent);

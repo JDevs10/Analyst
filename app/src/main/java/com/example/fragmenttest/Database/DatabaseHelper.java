@@ -24,6 +24,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_NAME_TICKETS_COL_5 ="currency";
     private static final String TABLE_NAME_TICKETS_COL_6 ="currency_type";
     private static final String TABLE_NAME_TICKETS_COL_7 ="date";
+    private static final String TABLE_NAME_TICKETS_COL_8 ="dateInLong";
 
     private static final String TABLE_NAME_SETTINGS_COL_1 ="ID";
     private static final String TABLE_NAME_SETTINGS_COL_2 ="start_amount";
@@ -44,7 +45,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             TABLE_NAME_TICKETS_COL_4+" TEXT, "+
             TABLE_NAME_TICKETS_COL_5+" DOUBLE, "+
             TABLE_NAME_TICKETS_COL_6+" TEXT, "+
-            TABLE_NAME_TICKETS_COL_7+" TEXT)";
+            TABLE_NAME_TICKETS_COL_7+" TEXT, " +
+            TABLE_NAME_TICKETS_COL_8+" INTEGER)";
 
     private final String createSettingsTable = "create table "+TABLE_NAME_SETTINGS+" ("+
             TABLE_NAME_SETTINGS_COL_1+" INTEGER PRIMARY KEY AUTOINCREMENT, "+
@@ -87,12 +89,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // CRUD Base Ticket Table
     //Add
-    public boolean insertTicket(String name, String category, String ticketType, double currency, String currencyType, String date){
+    public boolean insertTicket(String name, String category, String ticketType, double currency, String currencyType, String date, long dateInLong){
         SQLiteDatabase db = this.getWritableDatabase();
 
-        if (!name.isEmpty() && !category.isEmpty() && !ticketType.isEmpty() && currency != 0 && !currencyType.isEmpty() && !date.isEmpty()){
+        if (!name.isEmpty() && !category.isEmpty() && !ticketType.isEmpty() && currency != 0 && !currencyType.isEmpty() && !date.isEmpty() && (dateInLong != 0)){
             db.execSQL("insert into "+TABLE_NAME_TICKETS+
-                    " values(null, '"+name+"', '"+category+"', '"+ticketType+"', '"+currency+"', '"+currencyType+"', '"+date+"')");
+                    " values(null, '"+name+"', '"+category+"', '"+ticketType+"', '"+currency+"', '"+currencyType+"', '"+date+"', "+dateInLong+")");
             Log.e("DB: ", "insert is done");
             return true;
 
@@ -121,7 +123,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     TABLE_NAME_TICKETS_COL_4+" = '"+newTicketData.getTicketType()+"', "+
                     TABLE_NAME_TICKETS_COL_5+" = '"+newTicketData.getCurrency()+"', "+
                     TABLE_NAME_TICKETS_COL_6+" = '"+newTicketData.getCurrencyType()+"', "+
-                    TABLE_NAME_TICKETS_COL_7+" = '"+newTicketData.getDate()+"' where "+TABLE_NAME_TICKETS_COL_1+" = "+newTicketData.getId());
+                    TABLE_NAME_TICKETS_COL_7+" = '"+newTicketData.getDate()+"', " +
+                    TABLE_NAME_TICKETS_COL_8+" = "+newTicketData.getDateInLong()+" where "+TABLE_NAME_TICKETS_COL_1+" = "+newTicketData.getId());
             Log.e("DB: ", "ID: "+newTicketData.getId()+" is updated");
             return true;
         }else {

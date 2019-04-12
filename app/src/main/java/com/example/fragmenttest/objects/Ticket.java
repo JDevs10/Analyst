@@ -8,8 +8,9 @@ public class Ticket {
     private double currency;
     private String currencyType;
     private String date;
+    private long dateInLong;
 
-    public Ticket(int id, String name, String category, String ticketType, double currency, String currencyType, String date) {
+    public Ticket(int id, String name, String category, String ticketType, double currency, String currencyType, String date, long dateInLong) {
         this.id = id;
         this.name = name;
         this.category = category;
@@ -17,7 +18,7 @@ public class Ticket {
         this.currency = currency;
         this.currencyType = currencyType;
         this.date = date;
-
+        this.dateInLong = dateInLong;
     }
 
     public Ticket() {
@@ -77,5 +78,13 @@ public class Ticket {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public long getDateInLong() {
+        return dateInLong;
+    }
+
+    public void setDateInLong(long dateInLong) {
+        this.dateInLong = dateInLong;
     }
 }
