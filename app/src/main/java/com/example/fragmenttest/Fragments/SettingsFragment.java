@@ -29,6 +29,7 @@ import com.example.fragmenttest.objects.Categories;
 import com.example.fragmenttest.objects.Ticket;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class SettingsFragment extends Fragment {
 
@@ -217,11 +218,16 @@ public class SettingsFragment extends Fragment {
         btn_update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                double currency = Double.parseDouble(et_update_currency.getText().toString());
-                db.updateStartAmout(currency);
-                tv_startAmouce.setText("Start Amount : "+currency);
-                Toast.makeText(mContext, "Start Amount Updated!", Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
+                if(!et_update_currency.getText().toString().equals("")){
+                    double currency = Double.parseDouble(et_update_currency.getText().toString());
+                    long currentDateTime = Calendar.getInstance().getTime().getTime();
+
+                    db.deleteAllSettings(1);
+                    db.updateStartAmout(currency, currentDateTime);
+                    tv_startAmouce.setText("Start Amount : " + currency);
+                    Toast.makeText(mContext, "Start Amount Updated!", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                }
             }
         });
         btn_cancel.setOnClickListener(new View.OnClickListener() {

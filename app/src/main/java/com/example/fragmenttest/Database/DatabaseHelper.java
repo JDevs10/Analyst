@@ -31,6 +31,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_NAME_SETTINGS_COL_3 ="currency_type";
     private static final String TABLE_NAME_SETTINGS_COL_4 ="save_storage_status";
     private static final String TABLE_NAME_SETTINGS_COL_5 ="default_";
+    private static final String TABLE_NAME_SETTINGS_COL_6 ="dateInLong";
 
     private static final String TABLE_NAME_CATEGORIES_COL_1 ="ID";
     private static final String TABLE_NAME_CATEGORIES_COL_2 ="name";
@@ -52,8 +53,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             TABLE_NAME_SETTINGS_COL_1+" INTEGER PRIMARY KEY AUTOINCREMENT, "+
             TABLE_NAME_SETTINGS_COL_2+" DOUBLE, "+
             TABLE_NAME_SETTINGS_COL_3+" TEXT, "+
-            TABLE_NAME_SETTINGS_COL_4+" INTEGER," +
-            TABLE_NAME_SETTINGS_COL_5+" INTEGER)";
+            TABLE_NAME_SETTINGS_COL_4+" INTEGER, " +
+            TABLE_NAME_SETTINGS_COL_5+" INTEGER, " +
+            TABLE_NAME_SETTINGS_COL_6+" INTEGER)";
 
     private final String createCategoriesTable = "create table "+TABLE_NAME_CATEGORIES+" ("+
             TABLE_NAME_CATEGORIES_COL_1+" INTEGER PRIMARY KEY AUTOINCREMENT, "+
@@ -73,7 +75,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(createCategoriesTable);
         Log.e("DB: ", "Tables created");
 
-        db.execSQL("insert into "+TABLE_NAME_SETTINGS+" values(1, 0.0, '€', 0, 1)");
+        db.execSQL("insert into "+TABLE_NAME_SETTINGS+" values(1, 0.0, '€', 0, 1, 0.0)");
         db.execSQL("insert into "+TABLE_NAME_CATEGORIES+" values(1, 'Other', 1)");
 //        Log.e("DB: ", "Default Settings created");
     }
@@ -158,7 +160,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //Add Default
     public void insertDefaultSettingsData(){
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("insert into "+TABLE_NAME_SETTINGS+" values(1, 0.0, '€', 0, 1)");
+        db.execSQL("insert into "+TABLE_NAME_SETTINGS+" values(1, 0.0, '€', 0, 1, 0.0)");
         Log.e("DB: ", TABLE_NAME_SETTINGS+" => ID: 1 Default Settings Data insert is done");
     }
 
@@ -170,11 +172,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //Update Settings
-    public boolean updateStartAmout(double number){
+    public boolean updateStartAmout(double number, long dateInLong){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("update "+TABLE_NAME_SETTINGS+
-                " set "+TABLE_NAME_SETTINGS_COL_2+" = "+number+" where "+TABLE_NAME_SETTINGS_COL_1+" = 1");
-        Log.e("DB: ", TABLE_NAME_SETTINGS_COL_2+" => ID: 1 is updated");
+                " set "+TABLE_NAME_SETTINGS_COL_2+" = "+number+", " +
+                TABLE_NAME_SETTINGS_COL_6+" = "+dateInLong+" where "+TABLE_NAME_SETTINGS_COL_1+" = 1");
+        Log.e("DB: ", TABLE_NAME_SETTINGS_COL_2+" && "+TABLE_NAME_SETTINGS_COL_6+" => ID: 1 is updated");
         return true;
     }
 
@@ -194,6 +197,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
+    public Integer deleteAllSettings(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(TABLE_NAME_SETTINGS, TABLE_NAME_SETTINGS_COL_1+" = ?", new String[] {String.valueOf(id)});
+    }
 
 
     // CRUD Base Categories Table
@@ -235,6 +242,5 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(TABLE_NAME_CATEGORIES, TABLE_NAME_CATEGORIES_COL_1+" = ?", new String[] {String.valueOf(id)});
     }
-
 
 }
