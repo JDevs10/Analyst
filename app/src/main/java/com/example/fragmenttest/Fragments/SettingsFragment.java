@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 public class SettingsFragment extends Fragment {
+    private String TAG = SettingsFragment.class.getSimpleName();
 
     private View v;
     private Context mContext;
@@ -179,17 +180,13 @@ public class SettingsFragment extends Fragment {
 
     //get Default settings
     private void getDefaultSettings(){
+        Log.e(TAG, "Start Default Settings...");
         Cursor res = db.getAllSettingsData();
 
         while (res.moveToNext()){
-
-            if (res.getInt(4) == 1){
-                if (res.getInt(0) == 1) {
-                    tv_startAmouce.setText("Start Amount : " + String.valueOf(res.getDouble(1)));
-                    tv_currencyType.setText("Currency Type : " + res.getString(2));
-                    Log.e("getDefaultSettings ", "Default Settings set");
-                }
-            }
+            tv_startAmouce.setText("Start Amount : " + String.valueOf(res.getDouble(1)));
+            tv_currencyType.setText("Currency Type : " + res.getString(2));
+            Log.e("getDefaultSettings ", "Default Settings set");
         }
     }
 
@@ -222,11 +219,14 @@ public class SettingsFragment extends Fragment {
                     double currency = Double.parseDouble(et_update_currency.getText().toString());
                     long currentDateTime = Calendar.getInstance().getTime().getTime();
 
-                    db.deleteAllSettings(1);
-                    db.updateStartAmout(currency, currentDateTime);
-                    tv_startAmouce.setText("Start Amount : " + currency);
-                    Toast.makeText(mContext, "Start Amount Updated!", Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
+                    if(db.updateStartAmout(currency, currentDateTime)){
+                        tv_startAmouce.setText("Start Amount : " + currency);
+                        Toast.makeText(mContext, "Start Amount Updated!", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    }else{
+                        Toast.makeText(mContext, "Start Amount not Updated!", Toast.LENGTH_SHORT).show();
+                    }
+
                 }
             }
         });

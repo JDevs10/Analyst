@@ -231,41 +231,19 @@ public class ListFragment extends Fragment {
             }
         });
 
+        settings();
     }
 
     private void settings(){
-        Cursor res;
-
         Log.e(TAG, "Settings...");
         //check if the default is set
-        res = db.getAllSettingsData();
-        while (res.moveToNext()){
-            if (res.getCount() == 0){
-                db.insertDefaultSettingsData();
-                Log.e(TAG, "Default Settings settings applied");
-            }else {
-                Log.e(TAG, "Default Settings settings already applied");
-            }
+        Cursor res = db.getAllSettingsData();
+        if (res.getCount() == 0){
+            db.insertDefaultSettingsData();
+            Log.e(TAG, "Default Settings settings applied");
+        }else {
+            Log.e(TAG, "Default Settings settings already applied");
         }
-
-
-
-        res = db.getAllCategoriesData();
-        while (res.moveToNext()){
-            //if (res.getCount() == 0){
-
-                Log.e(TAG, "Default Category settings status: id = "+res.getInt(0));
-                Log.e(TAG, "Default Category settings status: name = "+res.getInt(1));
-                Log.e(TAG, "Default Category settings status: default = "+res.getInt(2));
-
-                db.insertDefaultCategory();
-                Log.e(TAG, "Default Category settings applied");
-            //}else {
-                Log.e(TAG, "Default Category settings already applied");
-            //}
-        }
-
-        Log.e(TAG, "Settings... finished");
     }
 
     private void getCategories(){

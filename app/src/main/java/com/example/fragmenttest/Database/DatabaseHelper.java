@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.example.fragmenttest.objects.GraphValues;
 import com.example.fragmenttest.objects.Ticket;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -16,6 +17,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_NAME_TICKETS = "Tickets";
     private static final String TABLE_NAME_SETTINGS = "Settings";
     private static final String TABLE_NAME_CATEGORIES = "Categories";
+    private static final String TABLE_NAME_GRAPHVALUES = "GraphValues";
 
     private static final String TABLE_NAME_TICKETS_COL_1 ="ID";
     private static final String TABLE_NAME_TICKETS_COL_2 ="name";
@@ -36,6 +38,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_NAME_CATEGORIES_COL_1 ="ID";
     private static final String TABLE_NAME_CATEGORIES_COL_2 ="name";
     private static final String TABLE_NAME_CATEGORIES_COL_3 ="default_";
+
+    private static final String TABLE_NAME_GRAPHVALUES_COL_1 ="ID";
+    private static final String TABLE_NAME_GRAPHVALUES_COL_2 ="transactions";
+    private static final String TABLE_NAME_GRAPHVALUES_COL_3 ="currency";
+    private static final String TABLE_NAME_GRAPHVALUES_COL_4 ="dateInLong";
 
 
     //Create Query table strings
@@ -62,6 +69,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             TABLE_NAME_CATEGORIES_COL_2+" TEXT, " +
             TABLE_NAME_CATEGORIES_COL_3+" INTEGER)";
 
+    private final String createGraphValuesTable = "create table "+TABLE_NAME_GRAPHVALUES+" (" +
+            TABLE_NAME_GRAPHVALUES_COL_1+" INTEGER PRIMARY KEY AUTOINCREMENT, "+
+            TABLE_NAME_GRAPHVALUES_COL_2+" TEXT, " +
+            TABLE_NAME_GRAPHVALUES_COL_3+" DOUBLE, " +
+            TABLE_NAME_GRAPHVALUES_COL_4+" INTEGER)";
+
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -73,11 +86,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(createTicketTable);
         db.execSQL(createSettingsTable);
         db.execSQL(createCategoriesTable);
+        db.execSQL(createGraphValuesTable);
         Log.e("DB: ", "Tables created");
 
         db.execSQL("insert into "+TABLE_NAME_SETTINGS+" values(1, 0.0, '€', 0, 1, 0.0)");
         db.execSQL("insert into "+TABLE_NAME_CATEGORIES+" values(1, 'Other', 1)");
-//        Log.e("DB: ", "Default Settings created");
+        Log.e("DB: ", "Default Settings created");
     }
 
     @Override
@@ -85,9 +99,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS "+TABLE_NAME_TICKETS);
         db.execSQL("DROP TABLE IF EXISTS "+TABLE_NAME_SETTINGS);
         db.execSQL("DROP TABLE IF EXISTS "+TABLE_NAME_CATEGORIES);
+        db.execSQL("DROP TABLE IF EXISTS "+TABLE_NAME_GRAPHVALUES);
         Log.e("DB: ", "Tables Deleted");
         onCreate(db);
     }
+
 
     // CRUD Base Ticket Table
     //Add
@@ -167,7 +183,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //View Settings
     public Cursor getAllSettingsData(){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor res = db.rawQuery("select * from "+TABLE_NAME_SETTINGS, null);
+        Cursor res = db.rawQuery("select * from "+TABLE_NAME_SETTINGS+" where "+TABLE_NAME_SETTINGS_COL_1+" = 1", null);
         return res;
     }
 
@@ -243,4 +259,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.delete(TABLE_NAME_CATEGORIES, TABLE_NAME_CATEGORIES_COL_1+" = ?", new String[] {String.valueOf(id)});
     }
 
+
+    // CRUD Base GraphValues Table
+    //private boolean insertGraphValues(GraphValues values){}
 }

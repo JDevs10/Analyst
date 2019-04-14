@@ -42,7 +42,7 @@
                     android:id="@+id/textView_fragment_settings_startAmouce"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Start Amount : 10000"
+                    android:text="Start Amount : XXXX"
                     android:textColor="@color/colorBlack"
                     android:textSize="18sp"
                     tools:layout_editor_absoluteX="134dp"
