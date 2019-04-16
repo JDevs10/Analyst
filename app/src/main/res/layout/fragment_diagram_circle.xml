@@ -7,12 +7,19 @@
     android:layout_height="match_parent"
     android:background="@color/design_default_color_primary">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
+    <com.jjoe64.graphview.GraphView
+        android:id="@+id/fragmentDiagramCircle_graph1"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginTop="0dp" />
+
+    <com.jjoe64.graphview.GraphView
+        android:id="@+id/fragmentDiagramCircle_graph2"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
         android:layout_alignParentBottom="true"
-        android:text="Diagram Circle Fragment"
-        android:textSize="30sp" />
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="0dp" />
 
 </RelativeLayout>

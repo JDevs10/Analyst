@@ -134,10 +134,10 @@ public class ListFragment extends Fragment {
                 if (adapterView.getSelectedItem().toString().equals("Category...")) {
                     categoryFilterText = "";
                     filteredTicketArrayList = filter(ticketArrayList, categoryFilterText, filterText);
-                    Log.e("Category Select ", "Get all category data");
+                    //Log.e("Category Select ", "Get all category data");
                 }else{
                     filteredTicketArrayList = filter(ticketArrayList, categoryFilterText, filterText);
-                    Log.e("Category Select ", adapterView.getSelectedItem().toString());
+                    //Log.e("Category Select ", adapterView.getSelectedItem().toString());
                 }
 
                 listFragmentAdapter = new ListFragmentAdapter(getContext(), filteredTicketArrayList);
@@ -235,14 +235,14 @@ public class ListFragment extends Fragment {
     }
 
     private void settings(){
-        Log.e(TAG, "Settings...");
+        //Log.e(TAG, "Settings...");
         //check if the default is set
         Cursor res = db.getAllSettingsData();
         if (res.getCount() == 0){
             db.insertDefaultSettingsData();
-            Log.e(TAG, "Default Settings settings applied");
+            //Log.e(TAG, "Default Settings settings applied");
         }else {
-            Log.e(TAG, "Default Settings settings already applied");
+            //Log.e(TAG, "Default Settings settings already applied");
         }
     }
 
@@ -275,7 +275,9 @@ public class ListFragment extends Fragment {
             ticket.setCurrency(res.getDouble(4));
             ticket.setCurrencyType(res.getString(5));
             ticket.setDate(res.getString(6));
+            ticket.setDateInLong(res.getLong(7));
             ticketArrayList.add(ticket);
+            //Log.e(TAG, "Result: "+ticket.getId()+" ; "+ticket.getName()+" ; "+ticket.getCategory()+" ; "+ticket.getTicketType()+" ; "+ticket.getCurrency()+" ; "+ticket.getCurrencyType()+" ; "+ticket.getDate()+" ; "+ticket.getDateInLong());
         }
     }
 
@@ -388,7 +390,7 @@ public class ListFragment extends Fragment {
                 if(!category.equals("") && text.equals("")){
                     if (list.get(i).getCategory().equals(category)){
                         filteredTicketArrayList.add(list.get(i));
-                        Log.e("Find by Category: "+i+" ==> ", "Category |==> "+list.get(i).getCategory());
+                        //Log.e("Find by Category: "+i+" ==> ", "Category |==> "+list.get(i).getCategory());
                     }
                 }
 
@@ -396,7 +398,7 @@ public class ListFragment extends Fragment {
                 if (!text.equals("") && category.equals("")){
                     if (list.get(i).getName().contains(text) || list.get(i).getDate().contains(text)){
                         filteredTicketArrayList.add(list.get(i));
-                        Log.e("Find by String : "+i+" ==> ", "String search: "+text+" |==> Name : "+list.get(i).getName()+" | Date :"+list.get(i).getDate());
+                        //Log.e("Find by String : "+i+" ==> ", "String search: "+text+" |==> Name : "+list.get(i).getName()+" | Date :"+list.get(i).getDate());
                     }
                 }
 
@@ -404,10 +406,10 @@ public class ListFragment extends Fragment {
                 if (!category.equals("") && !text.equals("")){
                     if (list.get(i).getCategory().equals(category) && (list.get(i).getName().contains(text) || list.get(i).getDate().contains(text))){
                         filteredTicketArrayList.add(list.get(i));
-                        Log.e("Find by Category & Text", " "+i+" ==>\n" +
+                        /*Log.e("Find by Category & Text", " "+i+" ==>\n" +
                                 "Category |==> "+list.get(i).getCategory()+"\n" +
                                 "Name |==> "+list.get(i).getName()+"\n" +
-                                "Date |==> "+list.get(i).getDate());
+                                "Date |==> "+list.get(i).getDate());*/
                     }
                 }
             }

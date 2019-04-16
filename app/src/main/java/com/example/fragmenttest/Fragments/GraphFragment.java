@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -50,8 +51,12 @@ public class GraphFragment extends Fragment {
     private Context mContext;
     private String TAG = GraphFragment.class.getSimpleName();
 
+    private final Handler mHandler = new Handler();
+    private Runnable mTimer1;
+    private LineGraphSeries<DataPoint> series;
     private GraphView graph;
     private Spinner sp_timeFilter;
+    private String sp_timeFilterSelected = "by all time";
 
     private SimpleDateFormat sdf = new SimpleDateFormat("HH:mm"); //yyyy-MM-dd
     private DatabaseHelper db;
@@ -86,38 +91,8 @@ public class GraphFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        //graph time filter
-        String[] timeFilter = {"by all time", "by year", "by month", "by day"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_dropdown_item, timeFilter);
-        sp_timeFilter.setAdapter(adapter);
-        sp_timeFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                String selected = adapterView.getSelectedItem().toString();
-                switch (selected){
-                    case "by all time":
-                        Toast.makeText(mContext, "Selected 1 "+selected, Toast.LENGTH_SHORT).show();
-                        break;
-                    case "by year":
-                        Toast.makeText(mContext, "Selected 2 "+selected, Toast.LENGTH_SHORT).show();
-                        break;
-                    case "by month":
-                        Toast.makeText(mContext, "Selected 3 "+selected, Toast.LENGTH_SHORT).show();
-                        break;
-                    case "by day":
-                        Toast.makeText(mContext, "Selected 4 "+selected, Toast.LENGTH_SHORT).show();
-                        break;
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
         // get graph values from tickets in the database
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(getGraphValues1(getGraphValues()));
+        series = new LineGraphSeries<>(setGraphValues(getGraphValuesOfAllTime()));
 
         //customize series
         series.setTitle("Global graph");
@@ -149,7 +124,7 @@ public class GraphFragment extends Fragment {
         //graph.getGridLabelRenderer().setNumHorizontalLabels(3); // only 4 because of the space
 
         // set manual x bounds to have nice steps
-        graph.getViewport().setMinX(getGraphValues().get(0).getDateInLong());
+        graph.getViewport().setMinX(getGraphValuesOfAllTime().get(0).getDateInLong());
         //graph.getViewport().setMaxX(getGraphValues().get(getGraphValues().size()-1).getDateInLong());
         graph.getViewport().setXAxisBoundsManual(true);
 
@@ -162,13 +137,63 @@ public class GraphFragment extends Fragment {
         // as we use dates as labels, the human rounding to nice readable numbers
         // is not necessary
         graph.getGridLabelRenderer().setHumanRounding(false);
+
+        //graph time filter
+        String[] timeFilter = {"by all time", "last year", "last month", "last week", "last 24h"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_dropdown_item, timeFilter);
+        sp_timeFilter.setAdapter(adapter);
+        sp_timeFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                sp_timeFilterSelected = adapterView.getSelectedItem().toString();
+                switch (sp_timeFilterSelected){
+                    case "by all time":
+                        sdf = new SimpleDateFormat("yyyy-MM"); //yyyy-MM-dd
+                        graph.removeSeries(series);
+                        series.resetData(setGraphValues(getGraphValuesOfAllTime()));
+                        graph.addSeries(series);
+                        Toast.makeText(mContext, "Selected 1 "+sp_timeFilterSelected, Toast.LENGTH_SHORT).show();
+                        break;
+                    case "last year":
+                        sdf = new SimpleDateFormat("YYYY-MMM"); //yyyy-MM-dd
+                        graph.removeSeries(series);
+                        //series.resetData(setGraphValues(getGraphValuesOfTheLastYear()));
+                        graph.addSeries(series);
+                        Toast.makeText(mContext, "Selected 2 "+sp_timeFilterSelected, Toast.LENGTH_SHORT).show();
+                        break;
+                    case "last month":
+                        sdf = new SimpleDateFormat("MMM-d"); //yyyy-MM-dd
+                        graph.removeSeries(series);
+                        //series.resetData(setGraphValues(getGraphValuesOfTheLastMonth()));
+                        graph.addSeries(series);
+                        Toast.makeText(mContext, "Selected 3 "+sp_timeFilterSelected, Toast.LENGTH_SHORT).show();
+                        break;
+                    case "last week":
+                        sdf = new SimpleDateFormat("EEE-d"); //yyyy-MM-dd
+                        graph.removeSeries(series);
+                        //series.resetData(setGraphValues(getGraphValuesOfTheLastWeek()));
+                        graph.addSeries(series);
+                        Toast.makeText(mContext, "Selected 2 "+sp_timeFilterSelected, Toast.LENGTH_SHORT).show();
+                        break;
+                    case "last 24h":
+                        sdf = new SimpleDateFormat("HH:mm"); //yyyy-MM-dd
+                        graph.removeSeries(series);
+                        series.resetData(setGraphValues(getGraphValuesOfTheLast24H()));
+                        graph.addSeries(series);
+                        Toast.makeText(mContext, "Selected 4 "+sp_timeFilterSelected, Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
     }
 
-    private void graphOfAllTime(){
-
-    }
-
-    private DataPoint[] getGraphValues1(ArrayList<GraphValues> getGraphValues){
+    private DataPoint[] setGraphValues(ArrayList<GraphValues> getGraphValues){
         DataPoint[] dp = new DataPoint[(getGraphValues.size())];
         currentAmount = getStartAmount();
 
@@ -184,6 +209,7 @@ public class GraphFragment extends Fragment {
             }
             Log.e(TAG, " Current Amount in graph : "+currentAmount+" size: "+i);
         }
+        Log.e(TAG, " setGraphValues => done! ");
         return dp;
     }
 
@@ -205,7 +231,7 @@ public class GraphFragment extends Fragment {
         return startAmountDate;
     }
 
-    private ArrayList<GraphValues> getGraphValues(){
+    private ArrayList<GraphValues> getGraphValuesOfAllTime(){
         Cursor res = db.getAllTicketData();
         ArrayList<GraphValues> values = new ArrayList<>();
 
@@ -221,6 +247,26 @@ public class GraphFragment extends Fragment {
 
             //Log.e(TAG, " X : "+res.getLong(7)+" || Y :"+res.getDouble(4)+" || Transaction : "+res.getString(3));
         }
+        Log.e(TAG, " getGraphValuesOfAllTime => done! ");
         return values;
     }
+
+    private ArrayList<GraphValues> getGraphValuesOfTheLast24H(){
+        Cursor res = db.getAllTicketDataOfTheLast24H();
+        ArrayList<GraphValues> values = new ArrayList<>();
+
+        while(res.moveToNext()){
+            GraphValues graphValues = new GraphValues();
+            graphValues.setTransaction(res.getString(3));
+            graphValues.setCurrency(res.getDouble(4));
+            graphValues.setDateInLong(res.getLong(7));
+            values.add(graphValues);
+
+            //Log.e(TAG, " X : "+res.getLong(7)+" || Y :"+res.getDouble(4)+" || Transaction : "+res.getString(3));
+        }
+        Log.e(TAG, " getGraphValuesOfTheLast24H => done! ");
+        return values;
+    }
+
+
 }

@@ -5,9 +5,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.fragmenttest.objects.GraphValues;
 import com.example.fragmenttest.objects.Ticket;
+
+import java.util.Calendar;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -126,6 +129,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor getAllTicketData(){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery("select * from "+TABLE_NAME_TICKETS, null);
+        return res;
+    }
+
+    public Cursor getAllTicketDataOfTheLast24H(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        long actualDate = Calendar.getInstance().getTime().getTime();
+        long _24h_before = (actualDate - 86400000); //in milliseconds
+
+        Cursor res = db.rawQuery("select * " +
+                "from "+TABLE_NAME_TICKETS+" " +
+                "where "+TABLE_NAME_TICKETS_COL_8+" between "+_24h_before+" and "+actualDate, null);
+
+        Log.e(TAG, " Row= "+res.getCount()+" ; Query => select * from "+TABLE_NAME_TICKETS+" where "+TABLE_NAME_TICKETS_COL_8+" between "+_24h_before+" and "+actualDate);
         return res;
     }
 
