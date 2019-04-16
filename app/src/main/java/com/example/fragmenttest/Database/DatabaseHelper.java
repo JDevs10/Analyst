@@ -132,6 +132,45 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return res;
     }
 
+    public Cursor getAllTicketDataOfTheLastYear(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        long actualDate = Calendar.getInstance().getTime().getTime();
+        long yearBefore = (actualDate - 315360000); //in milliseconds
+
+        Cursor res = db.rawQuery("select * " +
+                "from "+TABLE_NAME_TICKETS+" " +
+                "where "+TABLE_NAME_TICKETS_COL_8+" between "+yearBefore+" and "+actualDate, null);
+
+        Log.e(TAG, " Row= "+res.getCount()+" ; Query => select * from "+TABLE_NAME_TICKETS+" where "+TABLE_NAME_TICKETS_COL_8+" between "+yearBefore+" and "+actualDate);
+        return res;
+    }
+
+    public Cursor getAllTicketDataOfTheLastMonth(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        long actualDate = Calendar.getInstance().getTime().getTime();
+        long monthBefore = (actualDate - 262974600); //in milliseconds
+
+        Cursor res = db.rawQuery("select * " +
+                "from "+TABLE_NAME_TICKETS+" " +
+                "where "+TABLE_NAME_TICKETS_COL_8+" between "+monthBefore+" and "+actualDate, null);
+
+        Log.e(TAG, " Row= "+res.getCount()+" ; Query => select * from "+TABLE_NAME_TICKETS+" where "+TABLE_NAME_TICKETS_COL_8+" between "+monthBefore+" and "+actualDate);
+        return res;
+    }
+
+    public Cursor getAllTicketDataOfTheLastWeek(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        long actualDate = Calendar.getInstance().getTime().getTime();
+        long weekBefore = (actualDate - 604800000); //in milliseconds
+
+        Cursor res = db.rawQuery("select * " +
+                "from "+TABLE_NAME_TICKETS+" " +
+                "where "+TABLE_NAME_TICKETS_COL_8+" between "+weekBefore+" and "+actualDate, null);
+
+        Log.e(TAG, " Row= "+res.getCount()+" ; Query => select * from "+TABLE_NAME_TICKETS+" where "+TABLE_NAME_TICKETS_COL_8+" between "+weekBefore+" and "+actualDate);
+        return res;
+    }
+
     public Cursor getAllTicketDataOfTheLast24H(){
         SQLiteDatabase db = this.getWritableDatabase();
         long actualDate = Calendar.getInstance().getTime().getTime();

@@ -251,6 +251,57 @@ public class GraphFragment extends Fragment {
         return values;
     }
 
+    private ArrayList<GraphValues> getGraphValuesOfTheLastYear(){
+        Cursor res = db.getAllTicketDataOfTheLastYear();
+        ArrayList<GraphValues> values = new ArrayList<>();
+
+        while(res.moveToNext()){
+            GraphValues graphValues = new GraphValues();
+            graphValues.setTransaction(res.getString(3));
+            graphValues.setCurrency(res.getDouble(4));
+            graphValues.setDateInLong(res.getLong(7));
+            values.add(graphValues);
+
+            //Log.e(TAG, " X : "+res.getLong(7)+" || Y :"+res.getDouble(4)+" || Transaction : "+res.getString(3));
+        }
+        Log.e(TAG, " getGraphValuesOfTheLastWeek => done! ");
+        return values;
+    }
+
+    private ArrayList<GraphValues> getGraphValuesOfTheLastMonth(){
+        Cursor res = db.getAllTicketDataOfTheLastMonth();
+        ArrayList<GraphValues> values = new ArrayList<>();
+
+        while(res.moveToNext()){
+            GraphValues graphValues = new GraphValues();
+            graphValues.setTransaction(res.getString(3));
+            graphValues.setCurrency(res.getDouble(4));
+            graphValues.setDateInLong(res.getLong(7));
+            values.add(graphValues);
+
+            //Log.e(TAG, " X : "+res.getLong(7)+" || Y :"+res.getDouble(4)+" || Transaction : "+res.getString(3));
+        }
+        Log.e(TAG, " getGraphValuesOfTheLastWeek => done! ");
+        return values;
+    }
+
+    private ArrayList<GraphValues> getGraphValuesOfTheLastWeek(){
+        Cursor res = db.getAllTicketDataOfTheLastWeek();
+        ArrayList<GraphValues> values = new ArrayList<>();
+
+        while(res.moveToNext()){
+            GraphValues graphValues = new GraphValues();
+            graphValues.setTransaction(res.getString(3));
+            graphValues.setCurrency(res.getDouble(4));
+            graphValues.setDateInLong(res.getLong(7));
+            values.add(graphValues);
+
+            //Log.e(TAG, " X : "+res.getLong(7)+" || Y :"+res.getDouble(4)+" || Transaction : "+res.getString(3));
+        }
+        Log.e(TAG, " getGraphValuesOfTheLastWeek => done! ");
+        return values;
+    }
+
     private ArrayList<GraphValues> getGraphValuesOfTheLast24H(){
         Cursor res = db.getAllTicketDataOfTheLast24H();
         ArrayList<GraphValues> values = new ArrayList<>();
