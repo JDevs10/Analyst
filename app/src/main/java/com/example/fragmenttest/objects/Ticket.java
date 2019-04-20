@@ -1,21 +1,25 @@
 package com.example.fragmenttest.objects;
 
+import android.graphics.Color;
+
 public class Ticket {
     private int id;
     private String name;
     private String category;
     private String ticketType;
     private double currency;
+    private int currencyColor;
     private String currencyType;
     private String date;
     private long dateInLong;
 
-    public Ticket(int id, String name, String category, String ticketType, double currency, String currencyType, String date, long dateInLong) {
+    public Ticket(int id, String name, String category, String ticketType, double currency, int currencyColor, String currencyType, String date, long dateInLong) {
         this.id = id;
         this.name = name;
         this.category = category;
         this.ticketType = ticketType;
         this.currency = currency;
+        this.currencyColor = currencyColor;
         this.currencyType = currencyType;
         this.date = date;
         this.dateInLong = dateInLong;
@@ -63,6 +67,10 @@ public class Ticket {
     public void setCurrency(double currency) {
         this.currency = currency;
     }
+
+    public int getCurrencyColor(){ return currencyColor;}
+
+    public void setCurrencyColor(int currencyColor){ this.currencyColor = currencyColor; }
 
     public String getCurrencyType() {
         return currencyType;

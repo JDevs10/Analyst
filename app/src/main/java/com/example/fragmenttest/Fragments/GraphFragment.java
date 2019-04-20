@@ -155,7 +155,7 @@ public class GraphFragment extends Fragment {
                         Toast.makeText(mContext, "Selected 1 "+sp_timeFilterSelected, Toast.LENGTH_SHORT).show();
                         break;
                     case "last year":
-                        sdf = new SimpleDateFormat("YYYY-MMM"); //yyyy-MM-dd
+                        sdf = new SimpleDateFormat("yyyy-MMM"); //yyyy-MM-dd
                         graph.removeSeries(series);
                         //series.resetData(setGraphValues(getGraphValuesOfTheLastYear()));
                         graph.addSeries(series);

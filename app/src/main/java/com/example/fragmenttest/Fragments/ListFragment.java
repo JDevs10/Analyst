@@ -2,6 +2,7 @@ package com.example.fragmenttest.Fragments;
 
 import android.app.ProgressDialog;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.content.Context;
 import android.content.Intent;
@@ -262,7 +263,7 @@ public class ListFragment extends Fragment {
         ticketArrayList.clear();
         if (res.getCount() == 0){
             Toast.makeText(getContext(), "ERROR : No Ticket(s) Found", Toast.LENGTH_SHORT).show();
-            ticketArrayList.add(new Ticket(1,"Welcome","You have no ticket(s), press the add button to get started !!!","-",10.26,"€",timeStamp,dateInLong));
+            ticketArrayList.add(new Ticket(1,"Welcome","You have no ticket(s), press the add button to get started !!!","-",10.26, Color.RED,"€",timeStamp,dateInLong));
             return;
         }
 
@@ -276,6 +277,7 @@ public class ListFragment extends Fragment {
             ticket.setCurrencyType(res.getString(5));
             ticket.setDate(res.getString(6));
             ticket.setDateInLong(res.getLong(7));
+            ticket.setCurrencyColor(res.getInt(8));
             ticketArrayList.add(ticket);
             //Log.e(TAG, "Result: "+ticket.getId()+" ; "+ticket.getName()+" ; "+ticket.getCategory()+" ; "+ticket.getTicketType()+" ; "+ticket.getCurrency()+" ; "+ticket.getCurrencyType()+" ; "+ticket.getDate()+" ; "+ticket.getDateInLong());
         }

@@ -2,6 +2,7 @@ package com.example.fragmenttest.Adapters;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -44,6 +45,7 @@ public class ListFragmentAdapter extends RecyclerView.Adapter<ListFragmentAdapte
         myViewHolder.tv_category.setText(ticketList.get(i).getCategory());
         myViewHolder.tv_ticketType.setText(ticketList.get(i).getTicketType()+" ");
         myViewHolder.tv_currency.setText(String.valueOf(ticketList.get(i).getCurrency()));
+        myViewHolder.tv_currency.setTextColor(ticketList.get(i).getCurrencyColor());
         myViewHolder.tv_currencyType.setText(ticketList.get(i).getCurrencyType());
         myViewHolder.tv_date.setText(String.valueOf(ticketList.get(i).getDate()));
 

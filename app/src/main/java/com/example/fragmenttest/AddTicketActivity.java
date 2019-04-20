@@ -1,6 +1,7 @@
 package com.example.fragmenttest;
 
 import android.database.Cursor;
+import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,6 +22,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+
+import static android.graphics.Color.GREEN;
 
 public class AddTicketActivity extends AppCompatActivity {
 
@@ -88,6 +91,7 @@ public class AddTicketActivity extends AppCompatActivity {
         String categorySelected = sp_category.getSelectedItem().toString();
         String ticketTypeSelected = sp_ticketType.getSelectedItem().toString();
         String currencyType = "€";
+        int colorCurrencyTicket = 0;
 
         boolean allChecked = true;
 
@@ -111,14 +115,16 @@ public class AddTicketActivity extends AppCompatActivity {
         if (allChecked){
             if (ticketTypeSelected.equals("Credit")){
                 ticketTypeSelected = "+";
+                colorCurrencyTicket = Color.GREEN;//-16711936;
             }else{
                 ticketTypeSelected = "-";
+                colorCurrencyTicket = Color.RED;
             }
 
             String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
             long currentDateTime = Calendar.getInstance().getTime().getTime();
 
-            db.insertTicket(name,categorySelected,ticketTypeSelected, Double.parseDouble(currency),currencyType,timeStamp, currentDateTime);
+            db.insertTicket(name,categorySelected,ticketTypeSelected, Double.parseDouble(currency),currencyType,timeStamp, currentDateTime, colorCurrencyTicket);
 
             Intent intent = new Intent(AddTicketActivity.this, HomeActivity.class);
             startActivity(intent);

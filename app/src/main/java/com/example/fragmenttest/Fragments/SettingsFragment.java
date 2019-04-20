@@ -41,6 +41,7 @@ public class SettingsFragment extends Fragment {
 
     private Button startAmouce_edit_btn;
     private Button ccurrencyType_edit_btn;
+    private Button deleteTicketData_btn;
     private Button category_add_btn;
     private TextView tv_startAmouce;
     private TextView tv_currencyType;
@@ -75,6 +76,7 @@ public class SettingsFragment extends Fragment {
 
         startAmouce_edit_btn = (Button) v.findViewById(R.id.textView_fragment_settings_startAmouce_btn);
         ccurrencyType_edit_btn = (Button) v.findViewById(R.id.textView_fragment_settings_ccurrencyType_btn);
+        deleteTicketData_btn = (Button) v.findViewById(R.id.textView_fragment_settings_ticketData_btn);
         category_add_btn = (Button) v.findViewById(R.id.button_fragment_settings_category_add);
         category_rv = (RecyclerView) v.findViewById(R.id.RecyclerView_fragment_settings_category_list);
 
@@ -118,6 +120,20 @@ public class SettingsFragment extends Fragment {
                 builder.setCancelable(false);
                 View startAmouceView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_settings_dialog_currency_type_update,null,false);
                 InitCurrencyTypeUpdateDialog(startAmouceView);
+                builder.setView(startAmouceView);
+                dialog = builder.create();
+                dialog.show();
+            }
+        });
+
+        deleteTicketData_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("My Tickets");
+                builder.setCancelable(false);
+                View startAmouceView = LayoutInflater.from(getContext()).inflate(R.layout.custom_notification,null,false);
+                InitTicketData(startAmouceView);
                 builder.setView(startAmouceView);
                 dialog = builder.create();
                 dialog.show();
@@ -219,14 +235,17 @@ public class SettingsFragment extends Fragment {
                     double currency = Double.parseDouble(et_update_currency.getText().toString());
                     long currentDateTime = Calendar.getInstance().getTime().getTime();
 
-                    if(db.updateStartAmout(currency, currentDateTime)){
-                        tv_startAmouce.setText("Start Amount : " + currency);
-                        Toast.makeText(mContext, "Start Amount Updated!", Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();
+                    if (db.getTicketDataCount() == 0) {
+                        if (db.updateStartAmout(currency, currentDateTime)) {
+                            tv_startAmouce.setText("Start Amount : " + currency);
+                            Toast.makeText(mContext, "Start Amount Updated!", Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                        } else {
+                            Toast.makeText(mContext, "Start Amount not Updated!", Toast.LENGTH_SHORT).show();
+                        }
                     }else{
-                        Toast.makeText(mContext, "Start Amount not Updated!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, "Please delete all tickets before changing the Start Amount", Toast.LENGTH_LONG).show();
                     }
-
                 }
             }
         });
@@ -278,6 +297,37 @@ public class SettingsFragment extends Fragment {
             }
         });
         btn_cancel[0].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+    //Delete all ticket data
+    private void InitTicketData(View view){
+        final TextView text_tv = (TextView) view.findViewById(R.id.custom_notification_tv_text);
+        Button btn_yes = (Button) view.findViewById(R.id.custom_notification_btn_positive);
+        Button btn_no = (Button) view.findViewById(R.id.custom_notification_btn_negative);
+
+        text_tv.setText("You're about to delete all your tickets, are you sure ?");
+        btn_yes.setText("Yes");
+        btn_yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view1) {
+
+                //delete
+                if (db.deleteAllTicketData()) {
+                    Toast.makeText(mContext, "My tickets were deleted!", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                }else{
+                    Toast.makeText(mContext, "Couldn't delete my tickets!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        btn_no.setText("Non ");
+        btn_no.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
