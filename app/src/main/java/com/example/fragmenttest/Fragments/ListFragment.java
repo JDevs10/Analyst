@@ -31,7 +31,6 @@ import com.example.fragmenttest.AddTicketActivity;
 import com.example.fragmenttest.Database.DatabaseHelper;
 import com.example.fragmenttest.Interface.ItemClickListenerTicket;
 import com.example.fragmenttest.R;
-import com.example.fragmenttest.objects.Categories;
 import com.example.fragmenttest.objects.Ticket;
 
 import java.text.SimpleDateFormat;
@@ -418,5 +417,4 @@ public class ListFragment extends Fragment {
         }
         return filteredTicketArrayList;
     }
-
 }

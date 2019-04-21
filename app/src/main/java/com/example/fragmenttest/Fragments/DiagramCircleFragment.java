@@ -11,12 +11,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.fragmenttest.Database.DatabaseHelper;
 import com.example.fragmenttest.R;
 import com.example.fragmenttest.objects.DiagramValues;
-import com.example.fragmenttest.objects.Ticket;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
@@ -28,7 +30,6 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class DiagramCircleFragment extends Fragment {
@@ -37,10 +38,10 @@ public class DiagramCircleFragment extends Fragment {
     private View v;
     private Context mContext;
 
+    private Spinner pieChartFilter_sp;
+    private String filterSelected = "";
     private PieChart pieChart;
     private ArrayList<DiagramValues> diagramValues;
-    private float[] yData = {1.6f, 10.4f, 60.0f, 10.26f, 26.10f, 75.0f, 99.9f};
-    private String[] xData = {"test1", "test2", "test3", "test4", "test5", "test6", "test7",};
 
     private DatabaseHelper db;
 
@@ -63,10 +64,11 @@ public class DiagramCircleFragment extends Fragment {
         Log.e("Testing :", this.getClass().getSimpleName()+" is enable !!!!!!!!!");
         v = inflater.inflate(R.layout.fragment_diagram_circle, container,false);
 
+        pieChartFilter_sp = (Spinner) v.findViewById(R.id.fragmentDiagram_pieChart_filter);
         pieChart = (PieChart) v.findViewById(R.id.fragmentDiagram_pieChart);
 
         //"Global Debit Pie Chart by Categories"
-        pieChart.getDescription().setText("Global Pie Chart by Categories");
+        pieChart.getDescription().setText("Global Pie Chart of all Categories");
         pieChart.getDescription().setTextSize(14f);
 
         pieChart.setNoDataText("No Data Yet");
@@ -88,23 +90,46 @@ public class DiagramCircleFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        getDataFromDb();
-        addDatatToChart();
-
-        pieChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+        //graph time filter
+        String[] timeFilter = {"Credit Chart", "Debit Chart"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, android.R.layout.simple_spinner_dropdown_item, timeFilter);
+        pieChartFilter_sp.setAdapter(adapter);
+        pieChartFilter_sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onValueSelected(Entry e, Highlight h) {
-                Log.e(TAG, " onValueSelected: Value selected from chart");
-                Log.e(TAG, " onValueSelected: X value => "+h.getX()+" Y value => "+h.getY());
-                Toast.makeText(mContext, "Category: "+diagramValues.get((int) h.getX()).getCategoryName()+" \n" +
-                        "Percentage: "+h.getY()+" %", Toast.LENGTH_LONG).show();
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                filterSelected = adapterView.getSelectedItem().toString();
+
+                getDataFromDb();
+                addDatatToChart();
+
+                pieChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+                    @Override
+                    public void onValueSelected(Entry e, Highlight h) {
+                        //Log.e(TAG, " onValueSelected: Value selected from chart");
+                        //Log.e(TAG, " onValueSelected: X value => "+h.getX()+" Y value => "+h.getY());
+                        if (filterSelected.contains("Credit")){
+                            Toast.makeText(mContext, diagramValues.get((int) h.getX()).getCategoryName()+
+                                    " category has "+h.getY()+"% of credit from the total gain", Toast.LENGTH_LONG).show();
+                        }
+                        if (filterSelected.contains("Debit")){
+                            Toast.makeText(mContext, diagramValues.get((int) h.getX()).getCategoryName()+
+                                    " category has "+h.getY()+"% of spending from the total withdrawal", Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onNothingSelected() {
+
+                    }
+                });
             }
 
             @Override
-            public void onNothingSelected() {
+            public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
         });
+
     }
 
     private void getDataFromDb(){
@@ -132,11 +157,13 @@ public class DiagramCircleFragment extends Fragment {
                 if (categoryNames.get(i).equals(res2.getString(2))){
 
                     //if the ticket type is credit or debit type
-                    if (res2.getString(3).equals("+")){
+                    if (res2.getString(3).equals("+") && filterSelected.contains("Credit")){
+                        pieChart.setCenterText("Credit Chart");
                         categoryTotalValue = categoryTotalValue + res2.getDouble(4);
                     }
                     //if the ticket type is credit or debit type
-                    if (res2.getString(3).equals("-")){
+                    if (res2.getString(3).equals("-") && filterSelected.contains("Debit")){
+                        pieChart.setCenterText("Debit Chart");
                         categoryTotalValue = categoryTotalValue - res2.getDouble(4);
                     }
                     //Log.e(TAG, " categoryTotalValue: "+categoryTotalValue);
@@ -145,7 +172,6 @@ public class DiagramCircleFragment extends Fragment {
             Log.e(TAG, " categoryTotalValue done: "+categoryTotalValue);
             totalValueOfEachCategory.add(categoryTotalValue);
         }
-
 
         //3 calculate the global value of all category
         double globalValueOfAllCategories = 0.0;
@@ -164,7 +190,12 @@ public class DiagramCircleFragment extends Fragment {
         //populate the diagram values
         diagramValues = new ArrayList<>();
         for (int i=0; i<categoryNames.size(); i++){
-            diagramValues.add(new DiagramValues(categoryNames.get(i), categoryValues.get(i)));
+            if (categoryValues.get(i) != 0.0 || categoryValues.get(i) != -0.0){
+                diagramValues.add(new DiagramValues(categoryNames.get(i), categoryValues.get(i)));
+            }else {
+                categoryNames.remove(i);
+                categoryValues.remove(i);
+            }
         }
 
     }

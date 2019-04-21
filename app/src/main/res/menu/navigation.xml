@@ -8,12 +8,12 @@
 
     <item
         android:id="@+id/navigation_graph"
-        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:icon="@drawable/line_chart"
         android:title="@string/title_graph" />
 
     <item
         android:id="@+id/navigation_diagram_circle"
-        android:icon="@drawable/ic_notifications_black_24dp"
+        android:icon="@drawable/pie_chart"
         android:title="@string/title_diagram_cirlce" />
 
     <item

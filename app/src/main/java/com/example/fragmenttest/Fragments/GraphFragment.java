@@ -152,35 +152,30 @@ public class GraphFragment extends Fragment {
                         graph.removeSeries(series);
                         series.resetData(setGraphValues(getGraphValuesOfAllTime()));
                         graph.addSeries(series);
-                        Toast.makeText(mContext, "Selected 1 "+sp_timeFilterSelected, Toast.LENGTH_SHORT).show();
                         break;
                     case "last year":
                         sdf = new SimpleDateFormat("yyyy-MMM"); //yyyy-MM-dd
                         graph.removeSeries(series);
-                        //series.resetData(setGraphValues(getGraphValuesOfTheLastYear()));
+                        series.resetData(setGraphValues(getGraphValuesOfTheLastYear()));
                         graph.addSeries(series);
-                        Toast.makeText(mContext, "Selected 2 "+sp_timeFilterSelected, Toast.LENGTH_SHORT).show();
                         break;
                     case "last month":
                         sdf = new SimpleDateFormat("MMM-d"); //yyyy-MM-dd
                         graph.removeSeries(series);
-                        //series.resetData(setGraphValues(getGraphValuesOfTheLastMonth()));
+                        series.resetData(setGraphValues(getGraphValuesOfTheLastMonth()));
                         graph.addSeries(series);
-                        Toast.makeText(mContext, "Selected 3 "+sp_timeFilterSelected, Toast.LENGTH_SHORT).show();
                         break;
                     case "last week":
                         sdf = new SimpleDateFormat("EEE-d"); //yyyy-MM-dd
                         graph.removeSeries(series);
-                        //series.resetData(setGraphValues(getGraphValuesOfTheLastWeek()));
+                        series.resetData(setGraphValues(getGraphValuesOfTheLastWeek()));
                         graph.addSeries(series);
-                        Toast.makeText(mContext, "Selected 2 "+sp_timeFilterSelected, Toast.LENGTH_SHORT).show();
                         break;
                     case "last 24h":
                         sdf = new SimpleDateFormat("HH:mm"); //yyyy-MM-dd
                         graph.removeSeries(series);
                         series.resetData(setGraphValues(getGraphValuesOfTheLast24H()));
                         graph.addSeries(series);
-                        Toast.makeText(mContext, "Selected 4 "+sp_timeFilterSelected, Toast.LENGTH_SHORT).show();
                         break;
                 }
             }

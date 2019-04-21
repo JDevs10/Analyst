@@ -7,9 +7,24 @@
     android:layout_height="match_parent"
     android:background="@android:color/holo_blue_light">
 
-    <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/fragmentDiagram_pieChart"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Spinner
+            android:id="@+id/fragmentDiagram_pieChart_filter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"/>
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/fragmentDiagram_pieChart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/fragmentDiagram_pieChart_filter"
+            android:layout_marginTop="0dp" />
+
+    </RelativeLayout>
 
 </RelativeLayout>
