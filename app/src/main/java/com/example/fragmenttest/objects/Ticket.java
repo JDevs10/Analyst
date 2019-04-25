@@ -1,8 +1,9 @@
 package com.example.fragmenttest.objects;
 
-import android.graphics.Color;
 
 public class Ticket {
+    private String TAG = Ticket.class.getSimpleName();
+
     private int id;
     private String name;
     private String category;

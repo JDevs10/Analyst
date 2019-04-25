@@ -198,7 +198,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         if (!newTicketData.getName().isEmpty() && !newTicketData.getCategory().isEmpty() && !newTicketData.getTicketType().isEmpty()
-                && newTicketData.getCurrency() != 0.0 && !newTicketData.getCurrencyType().isEmpty() && !newTicketData.getDate().isEmpty()){
+                && newTicketData.getCurrency() != 0.0 && !newTicketData.getCurrencyType().isEmpty() && !newTicketData.getDate().isEmpty()
+                && newTicketData.getDateInLong() != 0 && newTicketData.getCurrencyColor() != 0){
             db.execSQL("update "+TABLE_NAME_TICKETS+
                     " set "+TABLE_NAME_TICKETS_COL_2+" = '"+newTicketData.getName()+"', "+
                     TABLE_NAME_TICKETS_COL_3+" = '"+newTicketData.getCategory()+"', "+
@@ -206,8 +207,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     TABLE_NAME_TICKETS_COL_5+" = '"+newTicketData.getCurrency()+"', "+
                     TABLE_NAME_TICKETS_COL_6+" = '"+newTicketData.getCurrencyType()+"', "+
                     TABLE_NAME_TICKETS_COL_7+" = '"+newTicketData.getDate()+"', " +
-                    TABLE_NAME_TICKETS_COL_8+" = "+newTicketData.getDateInLong()+", " +
-                    TABLE_NAME_TICKETS_COL_9+" = "+newTicketData.getCurrencyColor()+" where "+TABLE_NAME_TICKETS_COL_1+" = "+newTicketData.getId());
+                    TABLE_NAME_TICKETS_COL_8+" = '"+newTicketData.getDateInLong()+"', " +
+                    TABLE_NAME_TICKETS_COL_9+" = '"+newTicketData.getCurrencyColor()+"' where "+TABLE_NAME_TICKETS_COL_1+" = "+newTicketData.getId());
             Log.e("DB: ", "ID: "+newTicketData.getId()+" is updated");
             return true;
         }else {

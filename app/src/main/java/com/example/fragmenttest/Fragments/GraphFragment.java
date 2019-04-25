@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TabHost;
 import android.widget.Toast;
 
 import com.example.fragmenttest.Database.DatabaseHelper;
@@ -192,17 +193,21 @@ public class GraphFragment extends Fragment {
         DataPoint[] dp = new DataPoint[(getGraphValues.size())];
         currentAmount = getStartAmount();
 
-        Log.e(TAG, " Start Amount : "+getStartAmount()+" || Current Amount : "+currentAmount+" || DateInLong : "+getStartAmountDate());
+        if(getGraphValues.size() != 0) {
+        //Log.e(TAG, " Start Amount : "+getStartAmount()+" || Current Amount : "+currentAmount+" || DateInLong : "+getStartAmountDate());
         dp[0] = new DataPoint(getStartAmountDate(), getStartAmount());
 
-        for (int i=1; i<getGraphValues.size(); i++){
-            if (getGraphValues.get(i).getTransaction().equals("+")) {
-                dp[i] = new DataPoint(getGraphValues.get(i).getDateInLong(), (currentAmount += getGraphValues.get(i).getCurrency()));
+            for (int i = 1; i < getGraphValues.size(); i++) {
+                if (getGraphValues.get(i).getTransaction().equals("+")) {
+                    dp[i] = new DataPoint(getGraphValues.get(i).getDateInLong(), (currentAmount += getGraphValues.get(i).getCurrency()));
+                }
+                if (getGraphValues.get(i).getTransaction().equals("-")) {
+                    dp[i] = new DataPoint(getGraphValues.get(i).getDateInLong(), (currentAmount -= getGraphValues.get(i).getCurrency()));
+                }
+                Log.e(TAG, " Current Amount in graph : " + currentAmount + " size: " + i);
             }
-            if (getGraphValues.get(i).getTransaction().equals("-")) {
-                dp[i] = new DataPoint(getGraphValues.get(i).getDateInLong(), (currentAmount -= getGraphValues.get(i).getCurrency()));
-            }
-            Log.e(TAG, " Current Amount in graph : "+currentAmount+" size: "+i);
+        }else {
+            Toast.makeText(mContext, "No ticket data found in the "+sp_timeFilterSelected, Toast.LENGTH_SHORT).show();
         }
         Log.e(TAG, " setGraphValues => done! ");
         return dp;

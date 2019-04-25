@@ -191,10 +191,12 @@ public class DiagramCircleFragment extends Fragment {
         diagramValues = new ArrayList<>();
         for (int i=0; i<categoryNames.size(); i++){
             if (categoryValues.get(i) != 0.0 || categoryValues.get(i) != -0.0){
+                Log.e(TAG, " Diagram Values : "+categoryValues.get(i));
                 diagramValues.add(new DiagramValues(categoryNames.get(i), categoryValues.get(i)));
             }else {
-                categoryNames.remove(i);
-                categoryValues.remove(i);
+                Log.e(TAG, " globalValueOfAllCategories : "+globalValueOfAllCategories);
+                //categoryNames.remove(i);
+                //categoryValues.remove(i);
             }
         }
 

@@ -289,8 +289,27 @@ public class SettingsFragment extends Fragment {
                 String separator = ": ";
                 symbol = currencyTypeSelected[0].split(separator);
 
-                //Update db
+
+                //Update db settings
                 db.updateCurrencyType(symbol[1]);
+
+                //Update all tickets in the db
+                Cursor res = db.getAllTicketData();
+                while (res.moveToNext()) {
+                    Ticket ticket = new Ticket();
+                    ticket.setId(res.getInt(0));
+                    ticket.setName(res.getString(1));
+                    ticket.setCategory(res.getString(2));
+                    ticket.setTicketType(res.getString(3));
+                    ticket.setCurrency(res.getDouble(4));
+                    ticket.setCurrencyType(symbol[1]);
+                    ticket.setDate(res.getString(6));
+                    ticket.setDateInLong(res.getLong(7));
+                    ticket.setCurrencyColor(res.getInt(8));
+
+                    db.updateTicketData(ticket);
+                }
+
                 tv_currencyType.setText("Currency Type : "+symbol[1]);
                 Toast.makeText(mContext, "Currency Type Updated!", Toast.LENGTH_SHORT).show();
                 dialog.dismiss();

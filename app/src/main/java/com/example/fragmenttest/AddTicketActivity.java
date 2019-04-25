@@ -26,7 +26,7 @@ import java.util.Date;
 import static android.graphics.Color.GREEN;
 
 public class AddTicketActivity extends AppCompatActivity {
-
+    private String TAG = AddTicketActivity.class.getSimpleName();
     private ArrayList<String> categoriesList;
     private ArrayList<String> ticketTypeList;
 
@@ -90,7 +90,7 @@ public class AddTicketActivity extends AppCompatActivity {
         String name = et_name.getText().toString();
         String categorySelected = sp_category.getSelectedItem().toString();
         String ticketTypeSelected = sp_ticketType.getSelectedItem().toString();
-        String currencyType = "€";
+        String currencyType;
         int colorCurrencyTicket = 0;
 
         boolean allChecked = true;
@@ -120,6 +120,10 @@ public class AddTicketActivity extends AppCompatActivity {
                 ticketTypeSelected = "-";
                 colorCurrencyTicket = Color.RED;
             }
+
+            Cursor res = db.getAllSettingsData();
+            res.move(1);
+            currencyType = res.getString(2);
 
             String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
             long currentDateTime = Calendar.getInstance().getTime().getTime();

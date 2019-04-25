@@ -22,10 +22,12 @@ public class ListFragmentAdapter extends RecyclerView.Adapter<ListFragmentAdapte
     private Context context;
     private ArrayList<Ticket> ticketList;
     private ItemClickListenerTicket itemClickListenerTicket;
+    private DatabaseHelper db;
 
     public ListFragmentAdapter(Context mContext, ArrayList<Ticket> data){
         this.context = mContext;
         this.ticketList = data;
+        db = new DatabaseHelper(this.context);
     }
 
     @NonNull

@@ -107,7 +107,19 @@ public class ListFragment extends Fragment {
         btn_addTicket.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openAddTicket();
+                Cursor res = db.getAllSettingsData();
+                while (res.moveToNext()){
+                    if (res.getDouble(1) != 0.0) {
+                        openAddTicket();
+                    } else {
+                        Toast.makeText(mContext, "You need to set your Start Amount before creating tickets!", Toast.LENGTH_LONG).show();
+                        SettingsFragment settingsFrag = new SettingsFragment();
+                        getActivity().getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.fragment_container, settingsFrag, "findThisFragment")
+                                .addToBackStack(null)
+                                .commit();
+                    }
+                }
             }
         });
 
@@ -261,7 +273,7 @@ public class ListFragment extends Fragment {
 
         ticketArrayList.clear();
         if (res.getCount() == 0){
-            Toast.makeText(getContext(), "ERROR : No Ticket(s) Found", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getContext(), "ERROR : No Ticket(s) Found", Toast.LENGTH_SHORT).show();
             ticketArrayList.add(new Ticket(1,"Welcome","You have no ticket(s), press the add button to get started !!!","-",10.26, Color.RED,"€",timeStamp,dateInLong));
             return;
         }
