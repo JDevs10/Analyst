@@ -141,7 +141,6 @@ public class Loading extends AppCompatActivity implements GooglePlayVersion{
 
     @Override
     public void onReceiveGooglePlayVersion(String currentVersion, String latestVersion) {
-        Log.e(TAG, " Google Play, Analyst version: "+latestVersion);
         if(latestVersion != null) {
             //check if version is the same
             if (!currentVersion.equalsIgnoreCase(latestVersion)){

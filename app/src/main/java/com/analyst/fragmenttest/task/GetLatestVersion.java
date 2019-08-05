@@ -47,7 +47,6 @@ public class GetLatestVersion extends AsyncTask<String, String, JSONObject> {
 
         }catch (Exception e){
             e.printStackTrace();
-
         }
 
         return new JSONObject();
