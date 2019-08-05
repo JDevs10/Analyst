@@ -1,24 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/navigation_list"
-        android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/title_list" />
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/navigation_list"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="@string/title_list" />
 
-    <item
-        android:id="@+id/navigation_graph"
-        android:icon="@drawable/line_chart"
-        android:title="@string/title_graph" />
+        <item
+            android:id="@+id/navigation_addticket"
+            android:icon="@drawable/ic_add_box_black_24dp"
+            android:title="@string/addTicket" />
 
-    <item
-        android:id="@+id/navigation_diagram_circle"
-        android:icon="@drawable/pie_chart"
-        android:title="@string/title_diagram_cirlce" />
+        <item
+            android:id="@+id/navigation_graph"
+            android:icon="@drawable/line_chart"
+            android:title="@string/title_graph" />
 
-    <item
-        android:id="@+id/navigation_settings"
-        android:icon="@android:drawable/ic_menu_manage"
-        android:title="@string/navigation_settings" />
+        <item
+            android:id="@+id/navigation_diagram_circle"
+            android:icon="@drawable/pie_chart"
+            android:title="@string/title_diagram_cirlce" />
 
+        <item
+            android:id="@+id/navigation_settings"
+            android:icon="@android:drawable/ic_menu_manage"
+            android:title="@string/navigation_settings" />
+    </group>
+
+    <!--<item android:title="Information">-->
+        <!--<menu>-->
+            <!--&lt;!&ndash;<item&ndash;&gt;-->
+                <!--&lt;!&ndash;android:id="@+id/navigation_delete_data"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:icon="@drawable/ic_info_outline_black_24dp"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:title="Delete my data"/>&ndash;&gt;-->
+            <!--<item-->
+                <!--android:id="@+id/navigation_conditions"-->
+                <!--android:icon="@drawable/ic_info_outline_black_24dp"-->
+                <!--android:title="Privacy Policy"/>-->
+            <!--<item-->
+                <!--android:id="@+id/navigation_legalMentions"-->
+                <!--android:icon="@drawable/ic_info_outline_black_24dp"-->
+                <!--android:title="Terms of Service"/>-->
+        <!--</menu>-->
+    <!--</item>-->
 </menu>

@@ -21,12 +21,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <Button
-                android:id="@+id/button_add_ticket"
-                android:layout_width="62dp"
-                android:layout_height="wrap_content"
-                android:text="@string/add" />
-
             <Spinner
                 android:id="@+id/spinner_category_filter"
                 android:layout_width="match_parent"
