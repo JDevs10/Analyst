@@ -10,8 +10,13 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_marginTop="50dp">
+
+        <ImageView
+            android:id="@+id/home_nav_header_icon_iv"
+            android:layout_width="100dp"
+            android:layout_height="100dp"/>
 
         <TextView
             android:id="@+id/nav_header_currentUserName"
@@ -20,6 +25,8 @@
             android:padding="8dp"
             android:text="Analyst Menu"
             android:textSize="22dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
             android:textStyle="bold"
             android:textColor="@android:color/white"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>

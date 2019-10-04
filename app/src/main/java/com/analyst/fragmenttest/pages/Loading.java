@@ -77,7 +77,22 @@ public class Loading extends AppCompatActivity implements GooglePlayVersion{
         progressDialog = new ProgressDialog(Loading.this);
         progressDialog.setTitle("Google Play Store");
         progressDialog.setMessage("Checking application version...");
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
+
+        getCurrentVersion();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        error_tv = (TextView)findViewById(R.id.loading_main_error);
+
+        /** Google Play Store getting app version / Checking app version **/
+        progressDialog = new ProgressDialog(Loading.this);
+        progressDialog.setTitle("Google Play Store");
+        progressDialog.setMessage("Checking application version...");
         progressDialog.setCancelable(false);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
@@ -152,11 +167,13 @@ public class Loading extends AppCompatActivity implements GooglePlayVersion{
                     }
                 }else{
                     // if version is correct then proceed
+                    versionChecked = true;
                     progressDialog.dismiss();
                     loadScreen();
                 }
             }else{
                 // if version is correct then proceed
+                versionChecked = true;
                 progressDialog.dismiss();
                 loadScreen();
             }

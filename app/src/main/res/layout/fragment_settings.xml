@@ -16,8 +16,8 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
-        android:layout_marginTop="40dp"
         android:paddingBottom="5dp"
+        android:layout_gravity="center"
         tools:layout_editor_absoluteX="16dp">
 
       <!--<TextView-->

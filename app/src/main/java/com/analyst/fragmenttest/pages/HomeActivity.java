@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.analyst.fragmenttest.Database.DatabaseHelper;
@@ -68,6 +69,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             navigationView.setCheckedItem(R.id.navigation_list);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ListFragment()).commit();
         }
+
+        ImageView icon = navigationView.getHeaderView(0).findViewById(R.id.home_nav_header_icon_iv);
+        icon.setImageResource(R.mipmap.ic_analyst_icon_round);
     }
 
     @Override
